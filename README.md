@@ -3,6 +3,8 @@ Defero
 
 A tool to facilitate the anonymous reporting of sexual assualt and other harrassment to authorised officials.
 
+Defero means report or inform (latin).
+
 Important Information
 =====
 
