@@ -2,6 +2,11 @@
 
 {% block page_title %}Send a message{% endblock %}
 
+{% block description %}
+Messenger is a website that helps facilitate the anonymous reporting of sexual harassment and assault that may have
+occurred. It provides anonymous two-way communication if needed.
+{% endblock %}
+
 {% block content %}
 
     {{ content }}
@@ -25,15 +30,13 @@
                 <div class="input {{ field.field.widget.attrs.class }}">
                     {{ field.label_tag }}
                     {{ field }}
+                    {% if field.errors %}
+                        {% for error in field.errors %}
+                            <small class="error">{{ error|escape }}</small>
+                        {% endfor %}
+                    {% endif %}
                     {% if field.help_text %}
                         <small class="description">{{ field.help_text }}</small>
-                    {% endif %}
-                    {% if field.errors %}
-                        <ul class="form-errors">
-                            {% for error in field.errors %}
-                                <li><strong>{{ error|escape }}</strong></li>
-                            {% endfor %}
-                        </ul>
                     {% endif %}
                 </div>
             {% endfor %}

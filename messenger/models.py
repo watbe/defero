@@ -15,17 +15,15 @@ class BaseMessage(models.Model):
     # Editable by user
     content = models.TextField()
 
-    # Hidden from user
-    message_id = models.AutoField(primary_key=True)
     time_posted = models.DateTimeField()
-    conversation_id = models.CharField(max_length=16)
+    conversation_id = models.CharField(max_length=16, blank=True)
 
 
 class Message(BaseMessage):
     """
     Messages are messages sent from the reporter to the officer. Replies are different classes.
     """
-    author = models.ForeignKey(get_user_model())
+    author = models.ForeignKey(get_user_model(), blank=True)
 
 
 class Reply(BaseMessage):

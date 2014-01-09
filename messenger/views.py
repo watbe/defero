@@ -15,8 +15,6 @@ def home(request, output=None):
         output['login_form'] = LoginForm()
     if 'message_form' not in output:
         output['message_form'] = MessageForm()
-    output['description'] = 'Messenger is a website that helps facilitate the anonymous reporting of sexual harassment \
-                            and assault that may have occurred. It provides anonymous two-way communication if needed.'
     return render_to_response('front_page.html', output, context_instance=RequestContext(request))
 
 
@@ -25,7 +23,7 @@ def home(request, output=None):
 def log_in(request):
     if request.user.is_authenticated():
         # prevent logged in users from logging in again?
-        return HttpResponseRedirect("/user")
+        return HttpResponseRedirect("/")
 
     if request.method == 'POST':  # If the form has been submitted...
         form = LoginForm(request.POST)  # A form bound to the POST data
@@ -33,7 +31,7 @@ def log_in(request):
             user = form.login()
             if user:
                 login(request, user)
-                return HttpResponseRedirect("/user")  # Redirect to a success page.
+                return HttpResponseRedirect("/")  # Redirect to a success page.
         return render(request, 'user_login.html', {'login_form': form}, context_instance=RequestContext(request))
     else:
         return render(request, 'user_login.html', {'login_form': LoginForm()}, context_instance=RequestContext(request))
