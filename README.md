@@ -35,6 +35,7 @@ use.
 
 - Python 3.3
 - Django 1.6
+- Django Zurb Foundation (https://pypi.python.org/pypi/django-zurb-foundation)
 
 ## License
 

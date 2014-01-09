@@ -1,0 +1,17 @@
+{% extends 'foundation/base.html' %}
+
+{% block css %}
+    <link rel="stylesheet" href="/static/defero.css"/>
+{% endblock %}
+{% block title %}{% block page_title %}{{ title }}{% endblock %} | Messenger{% endblock %}
+
+
+{% block base_body %}
+    <div id="body_wrapper">
+        {% autoescape off %}
+            {% block content %}
+                {{ content }}
+            {% endblock %}
+        {% endautoescape %}
+    </div>
+{% endblock %}

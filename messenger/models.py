@@ -6,6 +6,10 @@ class Officer(models.Model):
     user = models.OneToOneField(get_user_model())
     role = models.CharField(max_length=100)
 
+    def __str__(self):
+        return self.role
+
+
 
 class Message(models.Model):
     # Editable by user
