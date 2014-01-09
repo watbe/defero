@@ -14,7 +14,12 @@
         </ul>
         <section class="top-bar-section"> <!-- Right Nav Section -->
             <ul class="right">
-                <li class="active"><a href="/user/login">Log In</a></li>
+                {% if user.is_authenticated %}
+                    <li><a href="/messages">Messages</a></li>
+                    <li class="active"><a href="/logout">Logout</a></li>
+                {% else %}
+                    <li class="active"><a href="/user/login">Log In</a></li>
+                {% endif %}
             </ul>
         </section>
     </nav>
@@ -30,13 +35,11 @@
 
             <div class="medium-3 columns">
 
-                {% if description %}
-                    <p>
-                        {% block description %}
-                            {{ description }}
-                        {% endblock %}
-                    </p>
-                {% endif %}
+                <p class="page_help">
+                    {% block description %}
+                        {{ description }}
+                    {% endblock %}
+                </p>
 
                 <h2>Helpful Info</h2>
                 <ul class="side-nav">

@@ -9,7 +9,7 @@ urlpatterns = patterns('',
                        url(r'^user$', 'messenger.views.user_page'),
 
                        url(r'^logout$', 'messenger.views.user_logout'),
-                       url(r'^login', 'messenger.views.log_in'),
+                       url(r'^user/login', 'messenger.views.log_in'),
 
                        url(r'^messages/new$', 'messenger.messages.new_message'),
 
