@@ -7,7 +7,8 @@
     {{ content }}
 
     <h1>Write a Message</h1>
-    <p>Write a message below</p>
+    <p>Write a message below. If you wish to read replies, you will need to register a username and password after
+    you send this message.</p>
 
     <div id="login">
 
@@ -19,7 +20,8 @@
             </ul>
         {% endif %}
 
-        <form action="/user/login" method="post">{% csrf_token %}
+        {# We ensure that autocomplete is forced off to prevent browsers from saving messages #}
+        <form action="/user/login" method="post" autocomplete="off">{% csrf_token %}
             {% for field in message_form %}
                 <div class="input {{ field.field.widget.attrs.class }}">
                     {{ field.label_tag }} {{ field }}
@@ -37,7 +39,7 @@
     </div>
 
     <h1>Login</h1>
-    <p>Please log in using your username and password.</p>
+    <p>Please log in using your username and password to view your messages.</p>
 
     <div id="login">
 
@@ -49,7 +51,8 @@
             </ul>
         {% endif %}
 
-        <form action="/user/login" method="post">{% csrf_token %}
+        {# We ensure that autocomplete is forced off to prevent browsers from saving passwords and usernames #}
+        <form action="/user/login" method="post" autocomplete="off">{% csrf_token %}
             {% for field in login_form %}
                 <div class="input {{ field.field.widget.attrs.class }}">
                     {{ field.label_tag }} {{ field }}

@@ -9,12 +9,12 @@ class LoginForm(forms.Form):
     password = forms.CharField(widget=forms.PasswordInput())
 
     def clean(self):
-        user = self.login(self)
+        user = self.login()
         if not user or not user.is_active:
             raise forms.ValidationError('Sorry, that login was invalid. Please try again.')
         return self.cleaned_data
 
-    def login(self, request):
+    def login(self):
         username = self.cleaned_data.get('username')
         password = self.cleaned_data.get('password')
         user = authenticate(username=username, password=password)
@@ -23,5 +23,4 @@ class LoginForm(forms.Form):
 
 class MessageForm(forms.Form):
     recipients = forms.ModelMultipleChoiceField(Officer.objects.all())
-    author = forms.BooleanField(required=False)
     content = forms.CharField(widget=forms.Textarea)
