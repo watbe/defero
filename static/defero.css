@@ -1,3 +1,21 @@
-#body_wrapper {
-    margin: 1em 2em 0;
+small.description {
+    display:block;
+    margin-top: -1rem;
+    padding: 0.8em 0 1.2em;
+}
+
+small.error {
+  margin-top: -1rem;
+    display:block;
+}
+
+textarea {
+    height: 200px;
+}
+.alert-box {
+    margin-top: 1rem;
+}
+
+h1, h2 {
+    margin-top: 1rem;
 }

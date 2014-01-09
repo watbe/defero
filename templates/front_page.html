@@ -4,84 +4,41 @@
 
 {% block content %}
 
-    <div class="row">
+    {{ content }}
 
-        <div class="medium-3 columns">
-            {% if not user.is_authenticated %}
-                {# Not logged in #}
-                <h2>Login</h2>
-                <p>Please log in using your username and password to view your messages.</p>
+    <h2>Write an Anonymous Message</h2>
+    <p><strong>All messages are anonymous</strong> regardless of whether you are logged in or not.
+        You may choose to identify yourself in the message text if you wish to.</p>
 
-                <div id="login">
-
-                    {% if login_form.non_field_errors %}
-                        <ul class='form-errors'>
-                            {% for error in login_form.non_field_errors %}
-                                <li>{{ error }}</li>
+    <div id="message_form">
+        {% if message_form.non_field_errors %}
+            <div data-alert class="alert-box warning radius">
+                {% for error in message_form.non_field_errors %}
+                    <span>{{ error }}</span>
+                {% endfor %}
+                <a href="#" class="close">&times;</a>
+            </div>
+        {% endif %}
+        {# We ensure that autocomplete is forced off to prevent browsers from saving messages #}
+        <form action="/messages/new" method="post" autocomplete="off">{% csrf_token %}
+            {% for field in message_form %}
+                <div class="input {{ field.field.widget.attrs.class }}">
+                    {{ field.label_tag }}
+                    {{ field }}
+                    {% if field.help_text %}
+                        <small class="description">{{ field.help_text }}</small>
+                    {% endif %}
+                    {% if field.errors %}
+                        <ul class="form-errors">
+                            {% for error in field.errors %}
+                                <li><strong>{{ error|escape }}</strong></li>
                             {% endfor %}
                         </ul>
                     {% endif %}
-
-                    {# We ensure that autocomplete is forced off to prevent browsers from saving passwords and usernames #}
-                    <form action="/login" method="post" autocomplete="off">{% csrf_token %}
-                        {% for field in login_form %}
-                            <div class="input {{ field.field.widget.attrs.class }}">
-                                {{ field.label_tag }} {{ field }}
-                                {% if field.errors %}
-                                    <ul class="form-errors">
-                                        {% for error in field.errors %}
-                                            <li><strong>{{ error|escape }}</strong></li>
-                                        {% endfor %}
-                                    </ul>
-                                {% endif %}
-                            </div>
-                        {% endfor %}
-                        <input type="submit" class="input" value="Login"/>
-                    </form>
                 </div>
-            {% else %}
-                {# Logged in #}
-                <div>
-                <h2>Navigation</h2>
-                <a href="/logout">Logout</a>
-                </div>
-            {% endif %}
-        </div>
-
-        <div class="medium-9 columns">
-
-            {{ content }}
-
-            <h1>Write a Message</h1>
-            <p>Write a message below. All messages are anonymous unless you choose to identify yourself in the
-            message text. </p>
-
-            <div id="message_form">
-                {% if message_form.non_field_errors %}
-                    <ul class='form-errors'>
-                        {% for error in message_form.non_field_errors %}
-                            <li>{{ error }}</li>
-                        {% endfor %}
-                    </ul>
-                {% endif %}
-                {# We ensure that autocomplete is forced off to prevent browsers from saving messages #}
-                <form action="/messages" method="post" autocomplete="off">{% csrf_token %}
-                    {% for field in message_form %}
-                        <div class="input {{ field.field.widget.attrs.class }}">
-                            {{ field.label_tag }} {{ field }}
-                            {% if field.errors %}
-                                <ul class="form-errors">
-                                    {% for error in field.errors %}
-                                        <li><strong>{{ error|escape }}</strong></li>
-                                    {% endfor %}
-                                </ul>
-                            {% endif %}
-                        </div>
-                    {% endfor %}
-                    <input type="submit" class="input" value="Send Message"/>
-                </form>
-            </div>
-        </div>
+            {% endfor %}
+            <input type="submit" class="input" value="Send Message"/>
+        </form>
     </div>
 
 {% endblock %}

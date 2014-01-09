@@ -13,7 +13,8 @@ def home(request, output=None):
     output['title'] = "Write a message"
     if 'login_form' not in output:
         output['login_form'] = LoginForm()
-    output['message_form'] = MessageForm()
+    if 'message_form' not in output:
+        output['message_form'] = MessageForm()
     return render_to_response('front_page.html', output, context_instance=RequestContext(request))
 
 

@@ -7,17 +7,53 @@
 
 
 {% block base_body %}
-    <div id="body_wrapper">
+    <nav class="top-bar" data-topbar>
+        <ul class="title-area">
+            <li class="name"><h1><a href="/">Messenger</a></h1></li>
+            <li class="toggle-topbar menu-icon"><a href="#">Menu</a></li>
+        </ul>
+        <section class="top-bar-section"> <!-- Right Nav Section -->
+            <ul class="right">
+                <li class="active"><a href="/user/login">Log In</a></li>
+            </ul>
+        </section>
+    </nav>
+    <div class="row content_wrapper">
         {% if success_message %}
             <div data-alert class="alert-box success radius">
                 {{ success_message }}
                 <a href="#" class="close">&times;</a>
             </div>
         {% endif %}
-        {% autoescape off %}
-            {% block content %}
-                {{ content }}
-            {% endblock %}
-        {% endautoescape %}
+
+        <div class="row">
+
+            <div class="medium-3 columns">
+
+                {% if description %}
+                    <p>
+                        {% block description %}
+                            {{ description }}
+                        {% endblock %}
+                    </p>
+                {% endif %}
+
+                <h2>Helpful Info</h2>
+                <ul class="side-nav">
+                    <li><a href="http://crcc.org.au/">Canberra Rape Crisis Centre</a></li>
+                    <li>CRCC Phone: 02 6247 2525</li>
+                    <li>ANU Security: 02 612 52249</li>
+                </ul>
+
+            </div>
+
+            <div class="medium-9 columns">
+
+                {% block content %}
+                    {{ content }}
+                {% endblock %}
+
+            </div>
+        </div>
     </div>
 {% endblock %}
