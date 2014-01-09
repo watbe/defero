@@ -7,6 +7,7 @@ urlpatterns = patterns('',
                        # url(r'^blog/', include('blog.urls')),
                        url(r'^user$', 'messenger.views.user_page'),
                        url(r'^logout$', 'messenger.views.user_logout'),
+                       url(r'^login', 'messenger.views.log_in'),
                        url(r'^$', 'messenger.views.home'),
 
                        )
