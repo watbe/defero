@@ -8,6 +8,12 @@
 
 {% block base_body %}
     <div id="body_wrapper">
+        {% if success_message %}
+            <div data-alert class="alert-box success radius">
+                {{ success_message }}
+                <a href="#" class="close">&times;</a>
+            </div>
+        {% endif %}
         {% autoescape off %}
             {% block content %}
                 {{ content }}

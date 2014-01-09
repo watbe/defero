@@ -7,11 +7,12 @@ from django.contrib.auth import login
 
 @never_cache
 @cache_control(no_cache=True, must_revalidate=True, max_age=0, no_store=True)
-def home(request):
-    output = dict({})
-    output['content'] = "hello"
-    output['title'] = "Send a message"
-    output['login_form'] = LoginForm()
+def home(request, output=None):
+    if not output:
+        output = dict()
+    output['title'] = "Write a message"
+    if 'login_form' not in output:
+        output['login_form'] = LoginForm()
     output['message_form'] = MessageForm()
     return render_to_response('front_page.html', output, context_instance=RequestContext(request))
 
@@ -24,7 +25,7 @@ def log_in(request):
             if user:
                 login(request, user)
                 return HttpResponseRedirect("/user")  # Redirect to a success page.
-        return render(request, 'front_page.html', {'form': form})
+        return home(request, {'login_form': form})
     else:
         if request.user.is_authenticated():
             # prevent logged in users from logging in again?
@@ -42,9 +43,9 @@ def user_page(request):
     displays a private message.
     """
     if request.user.is_authenticated():
-        output = dict({})
-        output['content'] = "Logged in"
-        return render_to_response('front_page.html', output, context_instance=RequestContext(request))
+        output = dict()
+        output['success_message'] = "You are now logged in. Remember to log out when you are finished."
+        return home(request, output)
     else:
         return HttpResponseRedirect("/")
 
@@ -54,4 +55,7 @@ def user_logout(request):
     Simple logout functionality.
     """
     logout(request)
-    return render_to_response('logged_out.html', context_instance=RequestContext(request))
+
+    output = dict()
+    output['success_message'] = "You have been successfully logged out."
+    return home(request, output)
