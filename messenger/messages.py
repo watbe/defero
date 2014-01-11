@@ -2,8 +2,13 @@ __author__ = 'Wayne'
 from django.shortcuts import render_to_response, RequestContext, HttpResponseRedirect, render
 from messenger.forms import MessageForm
 from messenger.models import Message, Conversation
+from django.contrib.auth import get_user_model
 from datetime import datetime
 import uuid
+
+# import the logging library
+import logging
+logger = logging.getLogger(__name__)
 
 
 def new_message(request, output=None):
@@ -23,6 +28,10 @@ def new_message(request, output=None):
                 author=request.user)
             message.conversation_id = conversation.uuid.__str__()
             conversation.messages.add(message)
+            author = get_user_model().objects.get(username=request.user.username)
+
+            conversation.recipients.add(author)
+            logger.error('author added to conversation recipients list: %s' % author.username)
             conversation.save()
             message.save()
             url = "/messages/" + message.conversation_id
@@ -35,13 +44,18 @@ def new_message(request, output=None):
     return render_to_response('front_page.html', output, context_instance=RequestContext(request))
 
 
-def read_message(request, uuid=None):
+def read_message(request, uuid):
     """
     Note, we must not differentiate between access denied (403's) and not found (404) to prevent people from
     trying to 'guess' URLs, as implausible as that may be...
     """
     try:
+
         conversation = Conversation.objects.get(uuid=uuid)
+
+        if request.method == 'POST':  # If a reply has been submitted, add it.
+            pass
+
         return render_to_response('message_conversation.html', {'conversation': conversation},
                                   context_instance=RequestContext(request))
     except Conversation.DoesNotExist:

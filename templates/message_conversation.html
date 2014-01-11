@@ -11,8 +11,8 @@
     <h2>Conversation</h2>
 
     <p>These people can view this message. Anonymous user,
-        {% for person in converstaion.recipients.all %}
-            {{ person }}
+        {% for user in conversation.recipients.all %}
+            {{ user.username }}
         {% endfor %}
     </p>
 
@@ -32,7 +32,7 @@
             </div>
         {% endif %}
         {# We ensure that autocomplete is forced off to prevent browsers from saving messages #}
-        <form action="/reply" method="post" autocomplete="off">{% csrf_token %}
+        <form action="" method="post" autocomplete="off">{% csrf_token %}
             {% for field in message_form %}
                 <div class="input {{ field.field.widget.attrs.class }}">
                     {{ field.label_tag }}
