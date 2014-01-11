@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block description %}
+    This is where you can view and send replies to receipients of this conversation. Remember that <strong>all messages are
+    anonymous</strong> regardless if you are logged in or not. You can identify yourself in replies at your own
+    discretion.
+{% endblock %}
+
+{% block content %}
+
+    <h2>Conversation</h2>
+
+    <p>These people can view this message. Anonymous user,
+        {% for person in converstaion.recipients.all %}
+            {{ person }}
+        {% endfor %}
+    </p>
+
+    {{ conversation.uuid }}
+
+    {% for message in conversation.messages.all %}
+        <p>{{ message.content }}</p>
+    {% endfor %}
+
+    <div id="message_form">
+        {% if message_form.non_field_errors %}
+            <div data-alert class="alert-box warning radius">
+                {% for error in message_form.non_field_errors %}
+                    <span>{{ error }}</span>
+                {% endfor %}
+                <a href="#" class="close">&times;</a>
+            </div>
+        {% endif %}
+        {# We ensure that autocomplete is forced off to prevent browsers from saving messages #}
+        <form action="/reply" method="post" autocomplete="off">{% csrf_token %}
+            {% for field in message_form %}
+                <div class="input {{ field.field.widget.attrs.class }}">
+                    {{ field.label_tag }}
+                    {{ field }}
+                    {% if field.errors %}
+                        {% for error in field.errors %}
+                            <small class="error">{{ error|escape }}</small>
+                        {% endfor %}
+                    {% endif %}
+                    {% if field.help_text %}
+                        <small class="description">{{ field.help_text }}</small>
+                    {% endif %}
+                </div>
+            {% endfor %}
+            <input type="submit" class="input" value="Send Message"/>
+        </form>
+    </div>
+
+{% endblock %}

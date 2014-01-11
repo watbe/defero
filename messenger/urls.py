@@ -12,6 +12,7 @@ urlpatterns = patterns('',
                        url(r'^user/login', 'messenger.views.log_in'),
 
                        url(r'^messages/new$', 'messenger.messages.new_message'),
+                       url(r'^messages/(?P<uuid>.*)$', 'messenger.messages.read_message'),
 
                        # Everything else will match home.
                        url(r'^', 'messenger.views.home'),
