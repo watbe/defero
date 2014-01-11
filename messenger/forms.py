@@ -28,3 +28,8 @@ class MessageForm(forms.Form):
                                                           'your message. ')
     content = forms.CharField(widget=forms.Textarea, help_text='A message can be as long or as short as you like. '
                                                                'Please be as descriptive as possible where necessary.')
+
+
+class ReplyForm(forms.Form):
+    content = forms.CharField(widget=forms.Textarea, help_text='Reply to this conversation. People who can view this '
+                                                               'conversation will be able to see your message.')

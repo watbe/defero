@@ -1,6 +1,6 @@
 __author__ = 'Wayne'
 from django.shortcuts import render_to_response, RequestContext, HttpResponseRedirect, render
-from messenger.forms import MessageForm
+from messenger.forms import MessageForm, ReplyForm
 from messenger.models import Message, Conversation
 from django.contrib.auth import get_user_model
 from datetime import datetime
@@ -41,23 +41,26 @@ def new_message(request, output=None):
         return HttpResponseRedirect("/")  # Redirect to a success page.
 
 
-    return render_to_response('front_page.html', output, context_instance=RequestContext(request))
-
-
-def read_message(request, uuid):
+def read_message(request, uuid, output=None):
     """
     Note, we must not differentiate between access denied (403's) and not found (404) to prevent people from
     trying to 'guess' URLs, as implausible as that may be...
     """
+    if not output:
+        output = dict()
+
+    if 'reply_form' not in output:
+        output['reply_form'] = ReplyForm()
+
     try:
 
         conversation = Conversation.objects.get(uuid=uuid)
+        output['conversation'] = conversation
 
         if request.method == 'POST':  # If a reply has been submitted, add it.
             pass
 
-        return render_to_response('message_conversation.html', {'conversation': conversation},
-                                  context_instance=RequestContext(request))
+        return render_to_response('message_conversation.html', output, context_instance=RequestContext(request))
     except Conversation.DoesNotExist:
         return not_found(request)
 

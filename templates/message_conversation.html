@@ -23,9 +23,10 @@
     {% endfor %}
 
     <div id="message_form">
-        {% if message_form.non_field_errors %}
+        <h3>Reply</h3>
+        {% if reply_form.non_field_errors %}
             <div data-alert class="alert-box warning radius">
-                {% for error in message_form.non_field_errors %}
+                {% for error in reply_form.non_field_errors %}
                     <span>{{ error }}</span>
                 {% endfor %}
                 <a href="#" class="close">&times;</a>
@@ -33,7 +34,7 @@
         {% endif %}
         {# We ensure that autocomplete is forced off to prevent browsers from saving messages #}
         <form action="" method="post" autocomplete="off">{% csrf_token %}
-            {% for field in message_form %}
+            {% for field in reply_form %}
                 <div class="input {{ field.field.widget.attrs.class }}">
                     {{ field.label_tag }}
                     {{ field }}
