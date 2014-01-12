@@ -25,14 +25,9 @@ def new_message(request, output=None):
 
         if request.POST and form.is_valid():
 
-            # We create a new conversation (as this is not a Reply) and give it a unique id
-            conversation = messenger.new_conversation()
-
-            # We create a message based on the form content and the new conversation
-            message = AnonymousMessage.objects.create(
+            conversation, message = messenger.new_conversation_from_message(
                 content=form.cleaned_data['content'],
-                time_posted=datetime.now())
-            message.conversation_id = conversation.uuid.__str__()
+                time=datetime.now())
 
             # If the user is logged in, and is an Officer, we associate the message with the Officer.
             # TODO This should only happen in Replies as all initial messages should be anonymous
