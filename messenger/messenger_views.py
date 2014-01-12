@@ -94,7 +94,9 @@ def read_message(request, uuid, output=None):
     except Conversation.DoesNotExist:
         return not_found(request)
 
-def reply(request):
+
+def reply(request, uuid):
+
     pass
 
 

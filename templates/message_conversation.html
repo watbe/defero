@@ -9,6 +9,7 @@
 {% block content %}
 
     <h2>Conversation</h2>
+    <div class="conversation_id panel callout radius">ID: {{ conversation.uuid }}</div>
 
     <p>These people can view this message. Anonymous user,
         {% for user in conversation.recipients.all %}
@@ -16,7 +17,6 @@
         {% endfor %}
     </p>
 
-    {{ conversation.uuid }}
 
     {% for message in conversation.messages.all %}
         <p>{{ message.content }}</p>

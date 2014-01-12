@@ -1,6 +1,6 @@
 __author__ = 'Wayne'
 from uuid import uuid4
-from messenger.models import Conversation, AnonymousMessage
+from messenger.models import Conversation, AnonymousMessage, Officer
 import re
 
 
@@ -29,3 +29,14 @@ def new_conversation_from_message(content, time):
     message.conversation_id = conversation.uuid.__str__()
 
     return conversation, message
+
+
+def get_officer(user):
+    """
+    Tests for whether the user is an officer and returns the officer object if it is, otherwise returns False
+    """
+    try:
+        officer = Officer.objects.get(user=user)
+        return officer
+    except Officer.DoesNotExist:
+        return False

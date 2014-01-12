@@ -10,7 +10,10 @@ TEST_ITERATIONS = 2000
 class OfficerTestCase(TestCase):
     def setUp(self):
         user = get_user_model().objects.create(username="tester")
-        Officer.objects.create(user=user, role="Test Officer")
+        officer = Officer.objects.create(user=user, role="Test Officer")
+        not_officer = get_user_model().objects.create(username="pleb")
+        officer.save()
+        not_officer.save()
 
     def test_officer_string(self):
         """
@@ -20,6 +23,16 @@ class OfficerTestCase(TestCase):
         user = get_user_model().objects.get(username="tester")
         officer = Officer.objects.get(user=user)
         self.assertEqual(officer.__str__(), officer.role)
+
+    def test_get_officer(self):
+        """
+        Tests the get_officer function
+        """
+        officer = mess.get_officer(get_user_model().objects.get(username="pleb"))
+
+        self.assertFalse(officer)
+        self.assertEqual(mess.get_officer(get_user_model().objects.get(username="tester")).user,
+                         get_user_model().objects.get(username="tester"))
 
 
 class MessengerTestCase(TestCase):
