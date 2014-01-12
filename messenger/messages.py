@@ -1,7 +1,8 @@
 __author__ = 'Wayne'
 from django.shortcuts import render_to_response, RequestContext, HttpResponseRedirect, render
 from messenger.forms import MessageForm, ReplyForm
-from messenger.models import Message, Conversation
+from messenger.models import AnonymousMessage, Conversation, Officer
+from messenger import views
 from django.contrib.auth import get_user_model
 from datetime import datetime
 import uuid
@@ -18,27 +19,55 @@ def new_message(request, output=None):
     if 'message_form' not in output:
         output['message_form'] = MessageForm()
 
-    if request.method == 'POST':  # If the form has been submitted...
-        form = MessageForm(request.POST)  # A form bound to the POST data
-        if request.POST and form.is_valid():
-            conversation = Conversation.objects.create(uuid=uuid.uuid4())
-            message = Message.objects.create(
-                content=form.cleaned_data['content'],
-                time_posted=datetime.now(),
-                author=request.user)
-            message.conversation_id = conversation.uuid.__str__()
-            conversation.messages.add(message)
-            author = get_user_model().objects.get(username=request.user.username)
+    if request.method == 'POST':
 
-            conversation.recipients.add(author)
-            logger.error('author added to conversation recipients list: %s' % author.username)
+        form = MessageForm(request.POST)
+
+        if request.POST and form.is_valid():
+
+            # We create a new conversation (as this is not a Reply) and give it a unique id
+            conversation = Conversation.objects.create(uuid=uuid.uuid4())
+
+            # We create a message based on the form content and the new conversation
+            message = AnonymousMessage.objects.create(
+                content=form.cleaned_data['content'],
+                time_posted=datetime.now())
+            message.conversation_id = conversation.uuid.__str__()
+
+            # If the user is logged in, and is an Officer, we associate the message with the Officer.
+            # TODO This should only happen in Replies as all initial messages should be anonymous
+            if not request.user.is_anonymous:
+                try:
+                    author = Officer.objects.get(user=request.user)
+                    message.author = author
+                except Officer.DoesNotExist:
+                    pass
+
+            # Now we add the message to the conversation.
+            conversation.messages.add(message)
+
+            # We set access permissions for this conversation. If the user isn't anonymous, we add the user to
+            # the access list.
+            if not request.user.is_anonymous:
+                author = get_user_model().objects.get(username=request.user.username)
+                conversation.recipients.add(author)
+
+            # We now add the officers from the recipients list in the submitted form
+            for officer in form.cleaned_data['recipients']:
+                conversation.recipients.add(officer.user)
+
+            # Commit the new message and conversation to the database
             conversation.save()
             message.save()
+
+            # Redirect to the page to display the message
             url = "/messages/" + message.conversation_id
             return HttpResponseRedirect(url)  # Redirect to a success page.
-        return render(request, 'front_page.html', {'message_form': form}, context_instance=RequestContext(request))
+
+        # If the form is invalid, redirect to the message page with the incorrect form
+        return views.home(request, {'message_form': form})
     else:
-        return HttpResponseRedirect("/")  # Redirect to a success page.
+        return HttpResponseRedirect("/")  # Redirect to message page
 
 
 def read_message(request, uuid, output=None):

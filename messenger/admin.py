@@ -1,6 +1,6 @@
 from django.contrib import admin
-from messenger.models import Officer, Message
+from messenger.models import Officer, AnonymousMessage
 
 # Register your models here.
 admin.site.register(Officer)
-admin.site.register(Message)
+admin.site.register(AnonymousMessage)
