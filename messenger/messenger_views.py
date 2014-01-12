@@ -3,9 +3,9 @@ from django.shortcuts import render_to_response, RequestContext, HttpResponseRed
 from messenger.forms import MessageForm, ReplyForm
 from messenger.models import AnonymousMessage, Conversation, Officer
 from messenger import views
+import messenger.messenger_methods as messenger
 from django.contrib.auth import get_user_model
 from datetime import datetime
-import uuid
 
 # import the logging library
 import logging
@@ -26,7 +26,7 @@ def new_message(request, output=None):
         if request.POST and form.is_valid():
 
             # We create a new conversation (as this is not a Reply) and give it a unique id
-            conversation = Conversation.objects.create(uuid=uuid.uuid4())
+            conversation = messenger.new_conversation()
 
             # We create a message based on the form content and the new conversation
             message = AnonymousMessage.objects.create(
