@@ -1,6 +1,15 @@
 __author__ = 'Wayne'
 from uuid import uuid4
 from messenger.models import Conversation, AnonymousMessage
+import re
+
+
+def uuid_check(uuid):
+    uuid4hex = re.compile('[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[0-9a-f]{4}-[0-9a-f]{12}\Z', re.I)
+    if not uuid4hex.match(uuid):
+        return False
+    else:
+        return True
 
 
 def new_conversation():

@@ -6,6 +6,7 @@ from messenger import views
 import messenger.messenger_methods as messenger
 from django.contrib.auth import get_user_model
 from datetime import datetime
+import re
 
 # import the logging library
 import logging
@@ -56,7 +57,7 @@ def new_message(request, output=None):
             message.save()
 
             # Redirect to the page to display the message
-            url = "/messages/" + message.conversation_id
+            url = "/messages/" + message.conversation_id + "/"
             return HttpResponseRedirect(url)  # Redirect to a success page.
 
         # If the form is invalid, redirect to the message page with the incorrect form
@@ -70,6 +71,12 @@ def read_message(request, uuid, output=None):
     Note, we must not differentiate between access denied (403's) and not found (404) to prevent people from
     trying to 'guess' URLs, as implausible as that may be...
     """
+
+    # Extra check to make sure UUID is in correct format
+    if not messenger.uuid_check(uuid):
+        return not_found(request)
+
+    # TODO access control
     if not output:
         output = dict()
 
@@ -77,7 +84,6 @@ def read_message(request, uuid, output=None):
         output['reply_form'] = ReplyForm()
 
     try:
-
         conversation = Conversation.objects.get(uuid=uuid)
         output['conversation'] = conversation
 
@@ -87,6 +93,9 @@ def read_message(request, uuid, output=None):
         return render_to_response('message_conversation.html', output, context_instance=RequestContext(request))
     except Conversation.DoesNotExist:
         return not_found(request)
+
+def reply(request):
+    pass
 
 
 def not_found(request):

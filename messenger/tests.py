@@ -2,6 +2,9 @@ from django.test import TestCase
 from messenger.models import Officer, BaseMessage, AnonymousMessage, Reply, Conversation
 from django.contrib.auth import get_user_model
 import messenger.messenger_methods as mess
+import uuid
+
+TEST_ITERATIONS = 2000
 
 
 class OfficerTestCase(TestCase):
@@ -18,16 +21,17 @@ class OfficerTestCase(TestCase):
         officer = Officer.objects.get(user=user)
         self.assertEqual(officer.__str__(), officer.role)
 
+
+class MessengerTestCase(TestCase):
+
     def test_unique_conversations(self):
         """
         Test that the method creates unique UUIDs for each conversation
         """
-
-        x = 0
-        for x in range(2000):
+        for x in range(TEST_ITERATIONS):
             mess.new_conversation()
 
-        print('Created %d new conversations' % x + 1)
+        print('Created %d new conversations' % (x+1))
 
         # Ensure that any uuid is discovered only once
         x = 0
@@ -39,3 +43,19 @@ class OfficerTestCase(TestCase):
                 self.fail()
 
         print('Checked %d conversations' % x)
+
+    def test_uuid_regex(self):
+        """
+        Check that our UUID regex matches correctly
+        """
+        for x in range(TEST_ITERATIONS):
+            self.assertTrue(mess.uuid_check(uuid.uuid4().__str__()))
+
+        print('Checked regex against %d UUIDs' % (x+1))
+
+    def test_new_message_uniqueness(self):
+        """
+        Test that views.new_message creates unique conversations by setting up a fake AnonymousMessage and checking
+        that the response object contains a unique URL.
+        """
+        pass
