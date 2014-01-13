@@ -4,10 +4,11 @@ from django.contrib.auth import get_user_model
 import messenger.messenger_methods as mess
 import uuid
 
-TEST_ITERATIONS = 2000
+TEST_ITERATIONS = 10
 
 
 class OfficerTestCase(TestCase):
+
     def setUp(self):
         user = get_user_model().objects.create(username="tester")
         officer = Officer.objects.create(user=user, role="Test Officer")
@@ -28,14 +29,17 @@ class OfficerTestCase(TestCase):
         """
         Tests the get_officer function
         """
-        officer = mess.get_officer(get_user_model().objects.get(username="pleb"))
+        officer = mess.get_officer_or_false(get_user_model().objects.get(username="pleb"))
 
         self.assertFalse(officer)
-        self.assertEqual(mess.get_officer(get_user_model().objects.get(username="tester")).user,
+        self.assertEqual(mess.get_officer_or_false(get_user_model().objects.get(username="tester")).user,
                          get_user_model().objects.get(username="tester"))
 
 
 class MessengerTestCase(TestCase):
+
+    def setUp(self):
+        user = get_user_model().objects.create(username="tester")
 
     def test_unique_conversations(self):
         """
@@ -71,4 +75,12 @@ class MessengerTestCase(TestCase):
         Test that views.new_message creates unique conversations by setting up a fake AnonymousMessage and checking
         that the response object contains a unique URL.
         """
-        pass
+        pass  # TODO
+
+    def test_reply_access_control(self):
+        c1, m1 = mess.new_conversation_from_message("TEST")
+        c1.save()
+        m1.save()
+
+        # Check that tester has no access to conversation
+        self.assertFalse(mess.get_conversation_or_false(c1.uuid, get_user_model().objects.get(username="tester")))

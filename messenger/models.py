@@ -34,7 +34,7 @@ class Reply(BaseMessage):
     """
     A reply is a message sent from the officer to reporter.
     """
-    author = models.ForeignKey(Officer)
+    author = models.ForeignKey(Officer, blank=True, null=True)
 
 
 class Conversation(models.Model):
@@ -44,6 +44,6 @@ class Conversation(models.Model):
     """
     uuid = models.CharField(max_length=16) # UUID length is max 16 chars
 
-    recipients = models.ManyToManyField(get_user_model(), related_name='officer_link')  # These are people allowed to view the conversation. Cannot be changed
-    messages = models.ManyToManyField(BaseMessage, related_name='messages_link')  # A list of all messages belonging to this conversation.
+    recipients = models.ManyToManyField(get_user_model(), related_name='recipient_set')  # These are people allowed to view the conversation. Cannot be changed
+    messages = models.ManyToManyField(BaseMessage, related_name='message_set')  # A list of all messages belonging to this conversation.
     subject = models.CharField(max_length=200)  # A headline for the conversation, can be changed by either party

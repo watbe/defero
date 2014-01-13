@@ -1,12 +1,11 @@
 __author__ = 'Wayne'
-from django.shortcuts import render_to_response, RequestContext, HttpResponseRedirect, render
+from django.shortcuts import render_to_response, RequestContext, HttpResponseRedirect
 from messenger.forms import MessageForm, ReplyForm
-from messenger.models import AnonymousMessage, Conversation, Officer
+from messenger.models import Officer
 from messenger import views
 import messenger.messenger_methods as messenger
 from django.contrib.auth import get_user_model
 from datetime import datetime
-import re
 
 # import the logging library
 import logging
@@ -76,28 +75,46 @@ def read_message(request, uuid, output=None):
     if not messenger.uuid_check(uuid):
         return not_found(request)
 
-    # TODO access control
+    conversation = messenger.get_conversation_or_false(uuid, request.user)
+    if not conversation:
+        return not_found(request)
+
     if not output:
         output = dict()
 
     if 'reply_form' not in output:
         output['reply_form'] = ReplyForm()
 
-    try:
-        conversation = Conversation.objects.get(uuid=uuid)
-        output['conversation'] = conversation
+    output['conversation'] = conversation
 
-        if request.method == 'POST':  # If a reply has been submitted, add it.
-            pass
-
-        return render_to_response('message_conversation.html', output, context_instance=RequestContext(request))
-    except Conversation.DoesNotExist:
-        return not_found(request)
+    return render_to_response('message_conversation.html', output, context_instance=RequestContext(request))
 
 
 def reply(request, uuid):
+    """
+    Processes replies
+    """
 
-    pass
+    # TODO access control
+
+    # Extra check to make sure UUID is in correct format
+    if not messenger.uuid_check(uuid):
+        return not_found(request)
+
+    if request.method == 'POST':
+
+        form = ReplyForm(request.POST)
+
+        if request.POST and form.is_valid():
+
+            # new_reply automatically checks whether the user is an officer or not
+            if messenger.new_reply(uuid, form.cleaned_data['content'], request.user):
+                msg = 'Your reply has been added to the conversation.'
+                return read_message(request, uuid, {'success_message': msg})
+            else:
+                return not_found(request)
+        else:
+            return read_message(request, uuid, {'reply_form': form})
 
 
 def not_found(request):
