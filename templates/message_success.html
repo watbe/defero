@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block description %}
+    This is where you can view and send replies to receipients of this conversation. Remember that <strong>all messages are
+    anonymous</strong> regardless if you are logged in or not. You can identify yourself in replies at your own
+    discretion.
+{% endblock %}
+
+{% block content %}
+
+    <h2>Message sent!</h2>
+    <div class="conversation_id panel callout radius">
+        Conversation ID: {{ conversation.uuid }}<br/><br/>
+        A new conversation has been started.
+        {% for reader in authorised_users %}
+            {{ reader }},
+        {% endfor %}
+    </div>
+
+    <a href="/messages/{{ conversation.uuid }}/">View conversation</a>
+
+{% endblock %}

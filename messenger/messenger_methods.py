@@ -1,8 +1,10 @@
 __author__ = 'Wayne'
 from uuid import uuid4
 from messenger.models import Conversation, BaseMessage, Officer
+from django.contrib.auth import get_user_model
 import re
 from datetime import datetime
+from random import randint
 
 # import the logging library
 import logging
@@ -74,16 +76,27 @@ def new_reply(uuid, content, user):
 
     if officer:
         message = BaseMessage.objects.create(author=officer,
-                                       content=content,
-                                       time_posted=datetime.now(),
-                                       conversation_id=conversation.uuid)
+                                             content=content,
+                                             time_posted=datetime.now(),
+                                             conversation_id=conversation.uuid)
     else:
         message = BaseMessage.objects.create(content=content,
-                                       time_posted=datetime.now(),
-                                       conversation_id=conversation.uuid)
+                                             time_posted=datetime.now(),
+                                             conversation_id=conversation.uuid)
 
     message.save()
     conversation.messages.add(message)
     conversation.save()
 
     return True
+
+
+def make_new_anonymous_user(password):
+
+    random_number = randint(100000, 999999)
+    while get_user_model().objects.filter(username=random_number).exists():
+        random_number = randint(100000, 999999)
+
+    new_user = get_user_model().objects.create(username=random_number.__str__(), password=password)
+
+    return new_user

@@ -29,6 +29,43 @@ class MessageForm(forms.Form):
     content = forms.CharField(widget=forms.Textarea, help_text='A message can be as long or as short as you like. '
                                                                'Please be as descriptive as possible where necessary.')
 
+    password = forms.CharField(widget=forms.PasswordInput, help_text='If you would like to see replies and continue '
+                                                                     'communications with the officer, please enter '
+                                                                     'a password here. You will be assigned a random '
+                                                                     'user ID.', required=False)
+    password_again = forms.CharField(widget=forms.PasswordInput, required=False)
+
+    def clean(self):
+        cleaned_data = super(MessageForm, self).clean()
+        password = cleaned_data.get('password')
+        password_again = cleaned_data.get('password_again')
+
+        if password:
+            if password_again:
+                if password != password_again:
+                    # Only do something if both passwords do not match.
+                    msg = "Passwords must match."
+                    self._errors["password"] = self.error_class([msg])
+                    self._errors["password_again"] = self.error_class([msg])
+
+                    # These fields are no longer valid. Remove them from the
+                    # cleaned data.
+                    del cleaned_data["password"]
+                    del cleaned_data["password_again"]
+            else:
+
+                # Only do something if both passwords do not match.
+                msg = "Please type your password twice to ensure correctness"
+                self._errors["password"] = self.error_class([msg])
+                self._errors["password_again"] = self.error_class([msg])
+
+                # These fields are no longer valid. Remove them from the
+                # cleaned data.
+                del cleaned_data["password"]
+                del cleaned_data["password_again"]
+
+        return cleaned_data
+
 
 class ReplyForm(forms.Form):
     content = forms.CharField(widget=forms.Textarea, help_text='Reply to this conversation. People who can view this '

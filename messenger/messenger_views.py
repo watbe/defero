@@ -46,6 +46,9 @@ def new_message(request, output=None):
             if not request.user.is_anonymous:
                 author = get_user_model().objects.get(username=request.user.username)
                 conversation.recipients.add(author)
+            elif form.cleaned_data['password']:
+                new_user = messenger.make_new_anonymous_user(form.cleaned_data['password'])
+                conversation.recipients.add(new_user)
 
             # We now add the officers from the recipients list in the submitted form
             for officer in form.cleaned_data['recipients']:
