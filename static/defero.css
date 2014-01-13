@@ -25,7 +25,16 @@ h1, h2 {
 }
 
 div.conversation_id {
-    float:right;
-    margin-top: -2.5rem;
     font-size: 0.8rem;
+}
+
+span.author {
+    font-size: 0.7rem;
+    color: #aaa;
+    display: block;
+}
+
+div.officer_message{
+    border: 1px solid #EEE;
+    background-color: #FFF
 }

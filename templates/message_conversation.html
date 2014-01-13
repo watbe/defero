@@ -9,20 +9,29 @@
 {% block content %}
 
     <h2>Conversation</h2>
-    <div class="conversation_id panel callout radius">ID: {{ conversation.uuid }}</div>
+    <div class="conversation_id panel callout radius">
+{#        Conversation ID: {{ conversation.uuid }}<br/><br/>#}
+        Users that can can view this conversation:
+            {% for reader in authorised_users %}
+                {{ reader }},
+            {% endfor %}
+    </div>
 
-    <p>These people can view this message. Anonymous user,
-        {% for user in conversation.recipients.all %}
-            {{ user.username }}
-        {% endfor %}
-    </p>
+
 
 
     {% for message in conversation.messages.all %}
+        <div class="message radius panel {% if message.author %}officer_message{% endif %}">
         <p>{{ message.content }}</p>
-        {% if message.author %}
-            {{ message.author }}
-        {% endif %}
+        <span class="author">
+            {% if message.author %}
+                Message written by {{ message.author }} at {{ message.time_posted }}
+            {% else %}
+                Message written by Anonymous User at {{ message.time_posted }}
+            {% endif %}
+        </span>
+        </div>
+
 
     {% endfor %}
 
