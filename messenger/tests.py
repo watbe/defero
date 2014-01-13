@@ -77,10 +77,28 @@ class MessengerTestCase(TestCase):
         """
         pass  # TODO
 
-    def test_reply_access_control(self):
+    def test_conversation_access_control(self):
         c1, m1 = mess.new_conversation_from_message("TEST")
         c1.save()
         m1.save()
 
+        tester = get_user_model().objects.get(username="tester")
+
         # Check that tester has no access to conversation
-        self.assertFalse(mess.get_conversation_or_false(c1.uuid, get_user_model().objects.get(username="tester")))
+        self.assertFalse(mess.get_conversation_or_false(c1.uuid, tester))
+
+        print("Passed access denied test")
+
+        c1.recipients.add(tester)
+        c1.save()
+
+        # Check that tester now can access it and it returns the right thing
+        self.assertEqual(mess.get_conversation_or_false(c1.uuid, tester), c1)
+
+        print("Passed access allowed test")
+
+    def test_reply_access_control(self):
+        """
+        Test that replies don't alter access control
+        """
+        pass # TODO
