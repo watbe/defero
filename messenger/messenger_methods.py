@@ -1,12 +1,13 @@
 __author__ = 'Wayne'
 from uuid import uuid4
-from messenger.models import Conversation, AnonymousMessage, Officer, Reply
+from messenger.models import Conversation, BaseMessage, Officer
 import re
 from datetime import datetime
 
 # import the logging library
 import logging
 logger = logging.getLogger(__name__)
+
 
 def uuid_check(uuid):
     uuid4hex = re.compile('[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[0-9a-f]{4}-[0-9a-f]{12}\Z', re.I)
@@ -47,7 +48,7 @@ def new_conversation_from_message(content, time=None):
         time = datetime.now()
 
     # We create a message based on the form content and the new conversation
-    message = AnonymousMessage.objects.create(content=content, time_posted=time)
+    message = BaseMessage.objects.create(content=content, time_posted=time)
     message.conversation_id = conversation.uuid.__str__()
 
     return conversation, message
@@ -72,12 +73,12 @@ def new_reply(uuid, content, user):
     officer = get_officer_or_false(user)
 
     if officer:
-        message = Reply.objects.create(author=officer,
+        message = BaseMessage.objects.create(author=officer,
                                        content=content,
                                        time_posted=datetime.now(),
                                        conversation_id=conversation.uuid)
     else:
-        message = Reply.objects.create(content=content,
+        message = BaseMessage.objects.create(content=content,
                                        time_posted=datetime.now(),
                                        conversation_id=conversation.uuid)
 

@@ -15,25 +15,13 @@ class Officer(models.Model):
 
 class BaseMessage(models.Model):
     """
-    All messages
+    All messages are anonymous unless they are written by an officer
     """
     content = models.TextField()
 
     time_posted = models.DateTimeField()
     conversation_id = models.CharField(max_length=16, blank=True)
 
-
-class AnonymousMessage(BaseMessage):
-    """
-    Messages are messages sent from the reporter to the officer. Replies are different classes.
-    """
-    author = models.ForeignKey(Officer, blank=True, null=True)
-
-
-class Reply(BaseMessage):
-    """
-    A reply is a message sent from the officer to reporter.
-    """
     author = models.ForeignKey(Officer, blank=True, null=True)
 
 

@@ -20,6 +20,10 @@
 
     {% for message in conversation.messages.all %}
         <p>{{ message.content }}</p>
+        {% if message.author %}
+            {{ message.author }}
+        {% endif %}
+
     {% endfor %}
 
     <div id="message_form">

@@ -121,6 +121,6 @@ def not_found(request):
     """
     This is the not found method.
     """
-    response = render_to_response('message_not_found.html')
+    response = render_to_response('message_not_found.html', context_instance=RequestContext(request))
     response.status_code = 404
     return response
