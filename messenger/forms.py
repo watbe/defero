@@ -27,7 +27,8 @@ class MessageForm(forms.Form):
                                                           ' with, and only the specified people will be able to view '
                                                           'your message. ')
     content = forms.CharField(widget=forms.Textarea, help_text='A message can be as long or as short as you like. '
-                                                               'Please be as descriptive as possible where necessary.')
+                                                               'Please be as descriptive as possible where necessary.',
+                              label='Message')
 
     password = forms.CharField(widget=forms.PasswordInput, help_text='If you would like to see replies and continue '
                                                                      'communications with the officer, please enter '

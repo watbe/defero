@@ -1,22 +1,48 @@
 {% extends 'base.html' %}
 
+{% block page_title %}Message sent{% endblock %}
+
 {% block description %}
-    This is where you can view and send replies to receipients of this conversation. Remember that <strong>all messages are
-    anonymous</strong> regardless if you are logged in or not. You can identify yourself in replies at your own
-    discretion.
+    Your message has been sent to the chosen officer(s). If you choose to be anonymous, you will not be able to view
+    the message or send a reply.
 {% endblock %}
 
 {% block content %}
 
-    <h2>Message sent!</h2>
+    <h2>Message sent</h2>
     <div class="conversation_id panel callout radius">
-        Conversation ID: {{ conversation.uuid }}<br/><br/>
-        A new conversation has been started.
-        {% for reader in authorised_users %}
-            {{ reader }},
-        {% endfor %}
+        <p>Message ID: {{ conversation.uuid }}</p>
+        <p>This is a receipt for your message and you may wish to take note of this ID for future purposes. This ID
+        will prove that you wrote this message.</p>
     </div>
 
-    <a href="/messages/{{ conversation.uuid }}/">View conversation</a>
+    <p>Thank you for sending a message to our officers. Officers will endeavour to read your message as soon as
+        possible but please be aware that due to the anonymous nature of this service, the follow up options are limited.
+    </p>
+    <p>If you wish to speak to someone, there are confidential services available on campus such as
+        <a href="http://counselling.anu.edu.au/">ANU Counselling</a>. If anyone's life is in danger, you need to let
+        someone know <strong>immediately</strong>.</p>
+
+    <hr/>
+
+    {% if new_user %}
+
+    <p>Since you entered a password into the field, a new account has been created for you. You can now log in with
+    the following details and access replies to the message and send further messages. </p>
+    <p>This user ID and password will not be shown again, so make note of it now.</p>
+    <div class="panel">
+        <p><strong>User ID</strong>: {{ new_user }}<br/>
+        <strong>Password</strong>: The one you entered when you submitted this form.</p>
+    </div>
+    <p>Note that the password is encrypted and cannot be retrieved under any circumstances. After you log in, there are
+    options to change your password and add an email address if you wish to be notified about new replies. </p>
+
+    {% else %}
+    <p>Your message has been sent to the recipient(s) that you selected. As you did not enter a password, you will not
+    be able to view replies or communicate further with the officer. </p>
+    <p>You may want to keep the message ID safe if you wish to identify yourself as the author of the message in the
+        future, otherwise the message will remain completely anonymous. </p>
+
+    {% endif %}
 
 {% endblock %}

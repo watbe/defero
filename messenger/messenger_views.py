@@ -29,15 +29,6 @@ def new_message(request, output=None):
                 content=form.cleaned_data['content'],
                 time=datetime.now())
 
-            # If the user is logged in, and is an Officer, we associate the message with the Officer.
-            # TODO This should only happen in Replies as all initial messages should be anonymous
-            if not request.user.is_anonymous:
-                try:
-                    author = Officer.objects.get(user=request.user)
-                    message.author = author
-                except Officer.DoesNotExist:
-                    pass
-
             # Now we add the message to the conversation.
             conversation.messages.add(message)
 
@@ -49,6 +40,7 @@ def new_message(request, output=None):
             elif form.cleaned_data['password']:
                 new_user = messenger.make_new_anonymous_user(form.cleaned_data['password'])
                 conversation.recipients.add(new_user)
+                output['new_user'] = new_user.username
 
             # We now add the officers from the recipients list in the submitted form
             for officer in form.cleaned_data['recipients']:
