@@ -58,9 +58,9 @@ def new_message(request, output=None):
             conversation.save()
             message.save()
 
-            # Redirect to the page to display the message
-            url = "/messages/" + message.conversation_id + "/"
-            return HttpResponseRedirect(url)  # Redirect to a success page.
+            output['conversation'] = conversation
+
+            return render_to_response('message_success.html', output, context_instance=RequestContext(request))
 
         # If the form is invalid, redirect to the message page with the incorrect form
         return views.home(request, {'message_form': form})
