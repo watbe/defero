@@ -97,6 +97,8 @@ def make_new_anonymous_user(password):
     while get_user_model().objects.filter(username=random_number).exists():
         random_number = randint(100000, 999999)
 
-    new_user = get_user_model().objects.create(username=random_number.__str__(), password=password)
+    new_user = get_user_model().objects.create(username=random_number.__str__())
+    new_user.set_password(password)
+    new_user.save()
 
     return new_user
