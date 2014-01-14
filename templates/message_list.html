@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block page_title %}Your conversations{% endblock %}
+
+{% block description %}
+    This is a list of conversations that you can access. Click on a conversation to view it and create replies.
+{% endblock %}
+
+{% block content %}
+
+    <h2>Conversations</h2>
+    {% if conversation_list %}
+        <p>You are part of the following conversations</p>
+        <ul>
+            {% for conversation in conversation_list %}
+                <li><a href="/messages/{{ conversation.uuid }}/">{{ conversation.uuid }}</a></li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+
+{% endblock %}

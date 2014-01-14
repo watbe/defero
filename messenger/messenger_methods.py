@@ -11,6 +11,10 @@ import logging
 logger = logging.getLogger(__name__)
 
 
+class MessengerException(Exception):
+    pass
+
+
 def uuid_check(uuid):
     uuid4hex = re.compile('[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[0-9a-f]{4}-[0-9a-f]{12}\Z', re.I)
     if not uuid4hex.match(uuid):
@@ -92,13 +96,30 @@ def new_reply(uuid, content, user):
 
 
 def make_new_anonymous_user(password):
+    """
+    Makes a new user with a random user id. Password is supplied.
+    """
 
+    # TODO test that no users with the same ID will be created
     random_number = randint(100000, 999999)
     while get_user_model().objects.filter(username=random_number).exists():
         random_number = randint(100000, 999999)
+
+    # Whatever happens, we must not give someone else access to another account
+    if get_user_model().objects.filter(username=random_number).exists():
+        raise MessengerException
 
     new_user = get_user_model().objects.create(username=random_number.__str__())
     new_user.set_password(password)
     new_user.save()
 
     return new_user
+
+
+def get_conversation_list_for_user(user_id):
+    """
+    Returns a list of conversations that the user can access
+    """
+
+    # TODO test access
+    return Conversation.objects.filter(recipients__pk=user_id)

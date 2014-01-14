@@ -92,6 +92,12 @@ def read_message(request, uuid, output=None):
     return render_to_response('message_conversation.html', output, context_instance=RequestContext(request))
 
 
+def list_messages(request):
+    output = dict()
+    output['conversation_list'] = messenger.get_conversation_list_for_user(request.user.id)
+    return render_to_response('message_list.html', output, context_instance=RequestContext(request))
+
+
 def reply(request, uuid):
     """
     Processes replies
