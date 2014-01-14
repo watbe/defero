@@ -34,7 +34,8 @@ class MessageForm(forms.Form):
                                                                      'communications with the officer, please enter '
                                                                      'a password here. You will be assigned a random '
                                                                      'user ID.', required=False)
-    password_again = forms.CharField(widget=forms.PasswordInput, required=False)
+    password_again = forms.CharField(widget=forms.PasswordInput, required=False,
+                                     help_text='Type your password again to make sure you have it right.')
 
     def clean(self):
         cleaned_data = super(MessageForm, self).clean()

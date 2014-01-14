@@ -1,5 +1,5 @@
 from django.test import TestCase
-from messenger.models import Officer, BaseMessage, AnonymousMessage, Reply, Conversation
+from messenger.models import Officer, BaseMessage, Conversation
 from django.contrib.auth import get_user_model
 import messenger.messenger_methods as mess
 import uuid
@@ -102,3 +102,8 @@ class MessengerTestCase(TestCase):
         Test that replies don't alter access control
         """
         pass # TODO
+
+
+    # TODO Test that anonymous users cannot see any conversations.
+
+    # TODO Test that conversations are properly associated with accounts if they are signed in already.

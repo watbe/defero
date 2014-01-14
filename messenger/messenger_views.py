@@ -1,7 +1,6 @@
 __author__ = 'Wayne'
 from django.shortcuts import render_to_response, RequestContext, HttpResponseRedirect
 from messenger.forms import MessageForm, ReplyForm
-from messenger.models import Officer
 from messenger import views
 import messenger.messenger_methods as messenger
 from django.contrib.auth import get_user_model
@@ -34,7 +33,7 @@ def new_message(request, output=None):
 
             # We set access permissions for this conversation. If the user isn't anonymous, we add the user to
             # the access list.
-            if not request.user.is_anonymous:
+            if not request.user.is_anonymous():
                 author = get_user_model().objects.get(username=request.user.username)
                 conversation.recipients.add(author)
             elif form.cleaned_data['password']:
@@ -51,6 +50,7 @@ def new_message(request, output=None):
             message.save()
 
             output['conversation'] = conversation
+            output['logged_in'] = True
 
             return render_to_response('message_success.html', output, context_instance=RequestContext(request))
 
@@ -93,9 +93,12 @@ def read_message(request, uuid, output=None):
 
 
 def list_messages(request):
-    output = dict()
-    output['conversation_list'] = messenger.get_conversation_list_for_user(request.user.id)
-    return render_to_response('message_list.html', output, context_instance=RequestContext(request))
+    if request.user.is_anonymous():
+        return not_found(request)
+    else:
+        output = dict()
+        output['conversation_list'] = messenger.get_conversation_list_for_user(request.user.id)
+        return render_to_response('message_list.html', output, context_instance=RequestContext(request))
 
 
 def reply(request, uuid):

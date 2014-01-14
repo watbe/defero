@@ -27,21 +27,27 @@
 
     {% if new_user %}
 
-    <p>Since you entered a password into the field, a new account has been created for you. You can now log in with
-    the following details and access replies to the message and send further messages. </p>
-    <p>This user ID and password will not be shown again, so make note of it now.</p>
-    <div class="panel">
-        <p><strong>User ID</strong>: {{ new_user }}<br/>
-        <strong>Password</strong>: The one you entered when you submitted this form.</p>
-    </div>
-    <p>Note that the password is encrypted and cannot be retrieved under any circumstances. After you log in, there are
-    options to change your password and add an email address if you wish to be notified about new replies. </p>
+        <p>Since you entered a password into the field, a new account has been created for you. You can now log in with
+        the following details and access replies to the message and send further messages. </p>
+        <p>This user ID and password will not be shown again, so make note of it now.</p>
+        <div class="panel">
+            <p><strong>User ID</strong>: {{ new_user }}<br/>
+            <strong>Password</strong>: The one you entered when you submitted this form.</p>
+        </div>
+        <p>Note that the password is encrypted and cannot be retrieved under any circumstances. After you log in, there are
+        options to change your password and add an email address if you wish to be notified about new replies. </p>
+
+    {% elif logged_in %}
+
+        <p>Your message has been sent and associated with your current user account. You can view replies and continue
+            communications by viewing your list of conversations.</p>
 
     {% else %}
-    <p>Your message has been sent to the recipient(s) that you selected. As you did not enter a password, you will not
-    be able to view replies or communicate further with the officer. </p>
-    <p>You may want to keep the message ID safe if you wish to identify yourself as the author of the message in the
-        future, otherwise the message will remain completely anonymous. </p>
+
+        <p>Your message has been sent to the recipient(s) that you selected. As you did not enter a password, you will not
+        be able to view replies or communicate further with the officer. </p>
+        <p>You may want to keep the message ID safe if you wish to identify yourself as the author of the message in the
+            future, otherwise the message will remain completely anonymous. </p>
 
     {% endif %}
 

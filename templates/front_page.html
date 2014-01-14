@@ -26,20 +26,67 @@ occurred. It provides anonymous two-way communication if needed.
         {% endif %}
         {# We ensure that autocomplete is forced off to prevent browsers from saving messages #}
         <form action="/messages/new" method="post" autocomplete="off">{% csrf_token %}
-            {% for field in message_form %}
-                <div class="input {{ field.field.widget.attrs.class }}">
-                    {{ field.label_tag }}
-                    {{ field }}
-                    {% if field.errors %}
-                        {% for error in field.errors %}
+
+            <div class="field_wrapper">
+                <label for="id_recipients">Recipients:</label>
+                {{ message_form.recipients }}
+                {% if message_form.recipients.errors %}
+                    {% for error in message_form.recipients.errors %}
+                        <small class="error">{{ error|escape }}</small>
+                    {% endfor %}
+                {% endif %}
+                {% if message_form.recipients.help_text %}
+                    <small class="description">{{ message_form.recipients.help_text }}</small>
+                {% endif %}
+            </div>
+
+            <div class="field_wrapper">
+                <label for="id_content">Message:</label>
+                {{ message_form.content }}
+                {% if message_form.content.errors %}
+                    {% for error in message_form.content.errors %}
+                        <small class="error">{{ error|escape }}</small>
+                    {% endfor %}
+                {% endif %}
+                {% if message_form.content.help_text %}
+                    <small class="description">{{ message_form.content.help_text }}</small>
+                {% endif %}
+            </div>
+
+            {% if not user.is_authenticated %}
+                <p>If you would like to see replies and continue communicating with the officer, enter a password
+                that only you know below. A random user id will be created for you which you can use to access any
+                replies and send further messages. <strong>This is optional.</strong></p>
+                <div class="field_wrapper">
+                    <label for="id_content">Password:</label>
+                    {{ message_form.password }}
+                    {% if message_form.password.errors %}
+                        {% for error in message_form.password.errors %}
                             <small class="error">{{ error|escape }}</small>
                         {% endfor %}
                     {% endif %}
-                    {% if field.help_text %}
-                        <small class="description">{{ field.help_text }}</small>
+                    {% if message_form.password.help_text %}
+                        <small class="description">{{ message_form.password.help_text }}</small>
                     {% endif %}
                 </div>
-            {% endfor %}
+                <div class="field_wrapper">
+                    <label for="id_content">Password confirmation:</label>
+                    {{ message_form.password_again }}
+                    {% if message_form.password_again.errors %}
+                        {% for error in message_form.password_again.errors %}
+                            <small class="error">{{ error|escape }}</small>
+                        {% endfor %}
+                    {% endif %}
+                    {% if message_form.password_again.help_text %}
+                        <small class="description">{{ message_form.password_again.help_text }}</small>
+                    {% endif %}
+                </div>
+            {% else %}
+                <p><strong>Please note that you are currently logged in.</strong> This message will be automatically
+                added to the list of conversations you can access. If you wish to dissociate your user account with
+                this message, please <a href="/logout">log out</a> first.</p>
+            {% endif %}
+
             <input type="submit" class="input" value="Send Message"/>
         </form>
     </div>

@@ -31,8 +31,9 @@ def log_in(request):
             user = form.login()
             if user:
                 login(request, user)
-                return HttpResponseRedirect("/")  # Redirect to a success page.
-        return render(request, 'user_login.html', {'login_form': form}, context_instance=RequestContext(request))
+                output = dict()
+                output['success_message'] = "You are now logged in. Remember to log out when you are finished."
+                return home(request, output)
     else:
         return render(request, 'user_login.html', {'login_form': LoginForm()}, context_instance=RequestContext(request))
 
@@ -52,6 +53,8 @@ def user_page(request):
         return HttpResponseRedirect("/user/login")
 
 
+@never_cache
+@cache_control(no_cache=True, must_revalidate=True, max_age=0, no_store=True)
 def user_logout(request):
     """
     Simple logout functionality.
