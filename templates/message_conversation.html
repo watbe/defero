@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% block page_title %}Conversation{% endblock %}
+
 {% block description %}
     This is where you can view and send replies to receipients of this conversation. Remember that <strong>all messages are
     anonymous</strong> regardless if you are logged in or not. You can identify yourself in replies at your own
@@ -10,15 +12,9 @@
 
     <h2>Conversation</h2>
     <div class="conversation_id panel callout radius">
-{#        Conversation ID: {{ conversation.uuid }}<br/><br/>#}
-        Users that can can view this conversation:
-            {% for reader in authorised_users %}
-                {{ reader }},
-            {% endfor %}
+        Conversation ID: {{ conversation.uuid }}<br/><br/>
+        Users that can can view this conversation: {{ authorised_users|join:", "  }}
     </div>
-
-
-
 
     {% for message in conversation.messages.all %}
         <div class="message radius panel {% if message.author %}officer_message{% endif %}">
