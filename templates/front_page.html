@@ -54,40 +54,43 @@ occurred. It provides anonymous two-way communication if needed.
             </div>
 
             {% if not user.is_authenticated %}
-                <p>If you would like to see replies and continue communicating with the officer, enter a password
-                that only you know below. A random user id will be created for you which you can use to access any
-                replies and send further messages. <strong>This is optional.</strong></p>
-                <div class="field_wrapper">
-                    <label for="id_content">Password:</label>
-                    {{ message_form.password }}
-                    {% if message_form.password.errors %}
-                        {% for error in message_form.password.errors %}
-                            <small class="error">{{ error|escape }}</small>
-                        {% endfor %}
-                    {% endif %}
-                    {% if message_form.password.help_text %}
-                        <small class="description">{{ message_form.password.help_text }}</small>
-                    {% endif %}
-                </div>
-                <div class="field_wrapper">
-                    <label for="id_content">Password confirmation:</label>
-                    {{ message_form.password_again }}
-                    {% if message_form.password_again.errors %}
-                        {% for error in message_form.password_again.errors %}
-                            <small class="error">{{ error|escape }}</small>
-                        {% endfor %}
-                    {% endif %}
-                    {% if message_form.password_again.help_text %}
-                        <small class="description">{{ message_form.password_again.help_text }}</small>
-                    {% endif %}
-                </div>
+                <fieldset>
+                    <legend>Create an account</legend>
+                    <p>If you would like to see replies and continue communicating with the officer, enter a password
+                    that only you know below. A random user id will be created for you which you can use to access any
+                    replies and send further messages. <strong>This is optional.</strong></p>
+                    <div class="field_wrapper">
+                        <label for="id_content">Password:</label>
+                        {{ message_form.password }}
+                        {% if message_form.password.errors %}
+                            {% for error in message_form.password.errors %}
+                                <small class="error">{{ error|escape }}</small>
+                            {% endfor %}
+                        {% endif %}
+                        {% if message_form.password.help_text %}
+                            <small class="description">{{ message_form.password.help_text }}</small>
+                        {% endif %}
+                    </div>
+                    <div class="field_wrapper">
+                        <label for="id_content">Password confirmation:</label>
+                        {{ message_form.password_again }}
+                        {% if message_form.password_again.errors %}
+                            {% for error in message_form.password_again.errors %}
+                                <small class="error">{{ error|escape }}</small>
+                            {% endfor %}
+                        {% endif %}
+                        {% if message_form.password_again.help_text %}
+                            <small class="description">{{ message_form.password_again.help_text }}</small>
+                        {% endif %}
+                    </div>
+                </fieldset>
             {% else %}
                 <p><strong>Please note that you are currently logged in.</strong> This message will be automatically
                 added to the list of conversations you can access. If you wish to dissociate your user account with
                 this message, please <a href="/logout">log out</a> first.</p>
             {% endif %}
 
-            <input type="submit" class="input" value="Send Message"/>
+            <button type="submit">Submit</button>
         </form>
     </div>
 
