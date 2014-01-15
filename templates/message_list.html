@@ -18,7 +18,8 @@
                 <tr>
                     <th>Subject</th>
                     <th>Conversation ID</th>
-                    <th>Recipients</th>
+                    <th>Replies</th>
+                    <th>Participants</th>
                 </tr>
             </thead>
             <tbody>
@@ -34,7 +35,10 @@
                         <td>
                             <a href="/messages/{{ conversation.uuid }}/">{{ conversation.uuid }}</a>
                         </td>
-                        <td>
+                        <td class="center">
+                            {{ conversation.messages.count }}
+                        </td>
+                        <td class="center">
                             {{ conversation.recipients.count }}
                         </td>
                     </tr>

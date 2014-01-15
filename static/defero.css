@@ -38,3 +38,7 @@ div.officer_message{
     border: 1px solid #EEE;
     background-color: #FFF
 }
+
+.center {
+    text-align: center;
+} 
