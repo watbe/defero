@@ -12,12 +12,11 @@
     <h2>Message sent</h2>
     <div class="conversation_id panel callout radius">
         <p>Message ID: {{ conversation.uuid }}</p>
-        <p>This is a receipt for your message and you may wish to take note of this ID for future purposes. This ID
-        will prove that you wrote this message.</p>
+        <p>You may wish to take note of this ID for future purposes. This ID will prove that you wrote this message.</p>
     </div>
 
     <p>Thank you for sending a message to our officers. Officers will endeavour to read your message as soon as
-        possible but please be aware that due to the anonymous nature of this service, the follow up options are limited.
+        possible but please be aware that due to the anonymous nature of this service, follow up options may be limited.
     </p>
     <p>If you wish to speak to someone, there are confidential services available on campus such as
         <a href="http://counselling.anu.edu.au/">ANU Counselling</a>. If anyone's life is in danger, you need to let
@@ -37,18 +36,20 @@
         <p>Note that the password is encrypted and cannot be retrieved under any circumstances. After you log in, there are
         options to change your password and add an email address if you wish to be notified about new replies. </p>
 
+    {% elif user.is_anonymous %}
+
+        <p>Your message has been sent to the recipient(s) that you selected. As you did not enter a password, you will not
+            be able to view replies or communicate further with the officer. </p>
+        <p>You may want to keep the message ID safe if you wish to identify yourself as the author of the message in the
+            future, otherwise the message will remain <completely></completely> anonymous. </p>
+
     {% elif logged_in %}
 
         <p>Your message has been sent and associated with your current user account. You can view replies and continue
             communications by viewing your list of conversations.</p>
 
-    {% else %}
-
-        <p>Your message has been sent to the recipient(s) that you selected. As you did not enter a password, you will not
-        be able to view replies or communicate further with the officer. </p>
-        <p>You may want to keep the message ID safe if you wish to identify yourself as the author of the message in the
-            future, otherwise the message will remain completely anonymous. </p>
-
     {% endif %}
+
+
 
 {% endblock %}
