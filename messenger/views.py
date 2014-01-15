@@ -33,7 +33,7 @@ def log_in(request):
                 login(request, user)
                 output = dict()
                 output['success_message'] = "You are now logged in. Remember to log out when you are finished."
-                return home(request, output)
+                return HttpResponseRedirect("/messages/")
     else:
         return render(request, 'user_login.html', {'login_form': LoginForm()}, context_instance=RequestContext(request))
 

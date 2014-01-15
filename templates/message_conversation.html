@@ -57,6 +57,15 @@
                     {% endif %}
                 </div>
             {% endfor %}
+
+            {% if officer %}
+                <p><strong>You are sending this reply as {{ officer.role }}.</strong></p>
+            {% endif %}
+
+            {% if anonymous %}
+                <p><strong>You are sending this reply as Anonymous User.</strong></p>
+            {% endif %}
+
             <button type="submit">Send reply</button>
         </form>
     </div>

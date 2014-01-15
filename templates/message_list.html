@@ -10,12 +10,37 @@
 
     <h2>Conversations</h2>
     {% if conversation_list %}
-        <p>You are part of the following conversations</p>
-        <ul>
-            {% for conversation in conversation_list %}
-                <li><a href="/messages/{{ conversation.uuid }}/">{{ conversation.uuid }}</a></li>
-            {% endfor %}
-        </ul>
+        <p>You are part of the following conversations:</p>
+
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Subject</th>
+                    <th>Conversation ID</th>
+                    <th>Recipients</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for conversation in conversation_list %}
+                    <tr>
+                        <td>
+                            {% if conversation.subject %}
+                                {{ conversation.subject }}
+                            {% else %}
+                                No subject
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="/messages/{{ conversation.uuid }}/">{{ conversation.uuid }}</a>
+                        </td>
+                        <td>
+                            {{ conversation.recipients.count }}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     {% endif %}
 
 

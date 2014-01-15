@@ -89,6 +89,12 @@ def read_message(request, uuid, output=None):
         else:
             output['authorised_users'].append("Anonymous User")
 
+    officer = messenger.get_officer_or_false(request.user)
+    if officer:
+        output['officer'] = officer
+    else:
+        output['anonymous'] = True
+
     return render_to_response('message_conversation.html', output, context_instance=RequestContext(request))
 
 
