@@ -103,7 +103,16 @@ class MessengerTestCase(TestCase):
         """
         pass # TODO
 
-
-    # TODO Test that anonymous users cannot see any conversations.
+    def test_no_duplicate_anonymous_users(self):
+        """
+        Ensure that the exception is never raised
+        """
+        raised = False
+        try:
+            for x in range(TEST_ITERATIONS):
+                mess.make_new_anonymous_user('password')
+        except mess.MessengerException:
+            raised = True
+        self.assertFalse(raised, 'Exception raised')
 
     # TODO Test that conversations are properly associated with accounts if they are signed in already.

@@ -101,7 +101,7 @@ def make_new_anonymous_user(password):
     Makes a new user with a random user id. Password is supplied.
     """
 
-    # TODO test that no users with the same ID will be created
+    # TODO account for the fact that someone might maliciously create more than 999999 accounts
     random_number = randint(100000, 999999)
     while get_user_model().objects.filter(username=random_number).exists():
         random_number = randint(100000, 999999)
