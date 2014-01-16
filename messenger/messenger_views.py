@@ -52,6 +52,8 @@ def new_message(request, output=None):
             output['conversation'] = conversation
             output['logged_in'] = True
 
+            messenger.send_email_notifications(conversation.recipients)
+
             return render_to_response('message_success.html', output, context_instance=RequestContext(request))
 
         # If the form is invalid, redirect to the message page with the incorrect form
@@ -127,6 +129,10 @@ def reply(request, uuid):
             # new_reply automatically checks whether the user is an officer or not
             if messenger.new_reply(uuid, form.cleaned_data['content'], request.user):
                 msg = 'Your reply has been added to the conversation.'
+
+                conversation = messenger.get_conversation_or_false(uuid, request.user)
+                messenger.send_email_notifications(conversation.recipients)
+
                 return read_message(request, uuid, {'success_message': msg})
             else:
                 return not_found(request)

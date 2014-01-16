@@ -5,6 +5,7 @@ from django.contrib.auth import get_user_model
 import re
 from datetime import datetime
 from random import randint
+from django.core.mail import send_mail
 
 # import the logging library
 import logging
@@ -123,3 +124,16 @@ def get_conversation_list_for_user(user_id):
 
     # TODO test access
     return Conversation.objects.filter(recipients__pk=user_id)
+
+
+def send_email_notifications(recipients):
+    """
+    Based on a list of recipients, this method will check if an email address is given, and if there is one, will
+    send an email notification with simple details about a new message on the website.
+    """
+    for user in recipients.all():
+        if user.email:
+            send_mail('New message on Messenger', 'Hi there, this is a simple notification to let you know that '
+                                                  'you have received a new message on Messenger. Please log in to'
+                                                  'view the new message. Thank you. - Automated email',
+                      'messenger@lab273.com',[user.email], fail_silently=True)
