@@ -102,9 +102,9 @@ def make_new_anonymous_user(password):
     """
 
     # TODO account for the fact that someone might maliciously create more than 999999 accounts
-    random_number = randint(100000, 999999)
+    random_number = randint(1000000, 9999999)
     while get_user_model().objects.filter(username=random_number).exists():
-        random_number = randint(100000, 999999)
+        random_number = randint(1000000, 9999999)
 
     # Whatever happens, we must not give someone else access to another account
     if get_user_model().objects.filter(username=random_number).exists():

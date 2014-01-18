@@ -4,7 +4,7 @@ from django.contrib.auth import get_user_model
 import messenger.messenger_methods as mess
 import uuid
 
-TEST_ITERATIONS = 10
+TEST_ITERATIONS = 10000
 
 
 class OfficerTestCase(TestCase):
@@ -111,6 +111,9 @@ class MessengerTestCase(TestCase):
         try:
             for x in range(TEST_ITERATIONS):
                 mess.make_new_anonymous_user('password')
+
+            print('Checked the creation of %d anonymous users' % (x+1))
+
         except mess.MessengerException:
             raised = True
         self.assertFalse(raised, 'Exception raised')
