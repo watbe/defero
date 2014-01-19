@@ -4,7 +4,7 @@ from django.contrib.auth import get_user_model
 import messenger.messenger_methods as mess
 import uuid
 
-TEST_ITERATIONS = 10000
+TEST_ITERATIONS = 1000
 
 
 class OfficerTestCase(TestCase):
@@ -40,7 +40,8 @@ class OfficerTestCase(TestCase):
 class MessengerTestCase(TestCase):
 
     def setUp(self):
-        user = get_user_model().objects.create(username="tester")
+        get_user_model().objects.create(username="tester")
+        get_user_model().objects.create(username="pleb")
 
     def test_unique_conversations(self):
         """
