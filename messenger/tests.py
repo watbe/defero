@@ -13,6 +13,7 @@ class OfficerTestCase(TestCase):
         user = get_user_model().objects.create(username="tester")
         officer = Officer.objects.create(user=user, role="Test Officer")
         not_officer = get_user_model().objects.create(username="pleb")
+        user.save()
         officer.save()
         not_officer.save()
 
@@ -101,7 +102,21 @@ class MessengerTestCase(TestCase):
         """
         Test that replies don't alter access control
         """
-        pass # TODO
+        c1, m1 = mess.new_conversation_from_message("TEST")
+        c1.save()
+        m1.save()
+        tester = get_user_model().objects.get(username="tester")
+        c1.recipients.add(tester)
+        initial_recipients = c1.recipients
+        c1.save()
+
+        # Test that you can't reply to a conversation you have no access to
+        pleb = get_user_model().objects.get(username="pleb")
+        self.assertFalse(mess.new_reply(c1.uuid, "reply", pleb))
+
+        # Test that replying doesn't change access control
+        mess.new_reply(c1.uuid, "reply", tester)
+        self.assertEqual(c1.recipients, initial_recipients)
 
     def test_no_duplicate_anonymous_users(self):
         """
@@ -118,4 +133,10 @@ class MessengerTestCase(TestCase):
             raised = True
         self.assertFalse(raised, 'Exception raised')
 
-    # TODO Test that conversations are properly associated with accounts if they are signed in already.
+    def test_conversation_association(self):
+        # TODO Test that conversations are properly associated with accounts if they are signed in already.
+        """
+        We need to ensure that new conversations are correctly linked to the right recipients.
+        """
+        pass
+
