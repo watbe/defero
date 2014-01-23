@@ -20,7 +20,7 @@ class BaseMessage(models.Model):
     content = models.TextField()
 
     time_posted = models.DateTimeField()
-    conversation_id = models.CharField(max_length=16, blank=True)
+    conversation_id = models.CharField(max_length=40, blank=True)
 
     author = models.ForeignKey(Officer, blank=True, null=True)
 
