@@ -30,7 +30,7 @@ class Conversation(models.Model):
     Conversations are identified by a unique UUID. All messages are associated with a conversation.
     Messages have sequential IDs as they are never exposed to the user.
     """
-    uuid = models.CharField(max_length=16) # UUID length is max 16 chars
+    uuid = models.CharField(max_length=40) # UUID length is max 16 chars
 
     recipients = models.ManyToManyField(get_user_model(), related_name='recipient_set')  # These are people allowed to view the conversation. Cannot be changed
     messages = models.ManyToManyField(BaseMessage, related_name='message_set')  # A list of all messages belonging to this conversation.
