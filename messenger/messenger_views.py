@@ -85,16 +85,16 @@ def read_message(request, uuid, output=None):
     output['conversation'] = conversation
     output['authorised_users'] = []
     for reader in conversation.recipients.all():
-        officer = messenger.get_officer_or_false(reader)
-        if officer:
+        try:
+            officer = messenger.get_officer(reader)
             output['authorised_users'].append(officer.__str__())
-        else:
+        except messenger.MessengerNotFoundException:
             output['authorised_users'].append("Anonymous User")
 
-    officer = messenger.get_officer_or_false(request.user)
-    if officer:
+    try:
+        officer = messenger.get_officer(request.user)
         output['officer'] = officer
-    else:
+    except messenger.MessengerNotFoundException:
         output['anonymous'] = True
 
     return render_to_response('message_conversation.html', output, context_instance=RequestContext(request))

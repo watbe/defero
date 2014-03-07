@@ -15,8 +15,13 @@ logger = logging.getLogger(__name__)
 class MessengerException(Exception):
     pass
 
+class MessengerNotFoundException(MessengerException):
+    pass
 
 def uuid_check(uuid):
+    """
+    Checks if a UUID is valid based on the expected format for a UUID. It does not check against the database.
+    """
     uuid4hex = re.compile('[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[0-9a-f]{4}-[0-9a-f]{12}\Z', re.I)
     if not uuid4hex.match(uuid):
         return False
@@ -25,6 +30,9 @@ def uuid_check(uuid):
 
 
 def new_conversation():
+    """
+    Helper function for starting a new function. May include new things later.
+    """
     return Conversation.objects.create(uuid=uuid4())
 
 
@@ -61,7 +69,7 @@ def new_conversation_from_message(content, time=None):
     return conversation, message
 
 
-def get_officer_or_false(user):
+def get_officer(user):
     """
     Tests for whether the user is an officer and returns the officer object if it is, otherwise returns False
     """
@@ -69,22 +77,24 @@ def get_officer_or_false(user):
         officer = Officer.objects.get(user=user)
         return officer
     except Officer.DoesNotExist:
-        return False
+        raise MessengerNotFoundException
 
 
 def new_reply(uuid, content, user):
+    """
+    Adds a new reply to a conversation
+    """
     conversation = get_conversation_or_false(uuid, user)
     if not conversation:
         return False
 
-    officer = get_officer_or_false(user)
-
-    if officer:
+    try:
+        officer = get_officer(user)
         message = BaseMessage.objects.create(author=officer,
                                              content=content,
                                              time_posted=datetime.now(),
                                              conversation_id=conversation.uuid)
-    else:
+    except MessengerNotFoundException:
         message = BaseMessage.objects.create(content=content,
                                              time_posted=datetime.now(),
                                              conversation_id=conversation.uuid)

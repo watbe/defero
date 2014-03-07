@@ -1,6 +1,6 @@
 from django.test import TestCase
 from django.test.client import RequestFactory
-from messenger.models import Officer, BaseMessage, Conversation
+from messenger.models import Officer, Conversation
 from django.contrib.auth import get_user_model
 import messenger.messenger_methods as mess
 import messenger.messenger_views as mess_views
@@ -32,10 +32,11 @@ class OfficerTestCase(TestCase):
         """
         Tests the get_officer function
         """
-        officer = mess.get_officer_or_false(get_user_model().objects.get(username="pleb"))
 
-        self.assertFalse(officer)
-        self.assertEqual(mess.get_officer_or_false(get_user_model().objects.get(username="tester")).user,
+        self.assertRaises(mess.MessengerNotFoundException,
+                          mess.get_officer(get_user_model().objects.get(username="pleb")))
+
+        self.assertEqual(mess.get_officer(get_user_model().objects.get(username="tester")).user,
                          get_user_model().objects.get(username="tester"))
 
 
