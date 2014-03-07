@@ -71,12 +71,12 @@ def new_conversation_from_message(content, time=None):
 
 def get_officer(user):
     """
-    Tests for whether the user is an officer and returns the officer object if it is, otherwise returns False
+    Tests for whether the user is an officer and returns the officer object if it is, otherwise returns
+    a MessengerNotFoundException exception
     """
     try:
-        officer = Officer.objects.get(user=user)
-        return officer
-    except Officer.DoesNotExist:
+        return Officer.objects.get(user=user)
+    except (Officer.DoesNotExist, Officer.MultipleObjectsReturned):
         raise MessengerNotFoundException
 
 

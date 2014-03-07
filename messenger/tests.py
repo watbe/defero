@@ -2,8 +2,8 @@ from django.test import TestCase
 from django.test.client import RequestFactory
 from messenger.models import Officer, Conversation
 from django.contrib.auth import get_user_model
-import messenger.messenger_methods as mess
-import messenger.messenger_views as mess_views
+from messenger import messenger_methods
+from messenger import messenger_views
 import uuid
 
 TEST_ITERATIONS = 10
@@ -33,10 +33,10 @@ class OfficerTestCase(TestCase):
         Tests the get_officer function
         """
 
-        self.assertRaises(mess.MessengerNotFoundException,
-                          mess.get_officer(get_user_model().objects.get(username="pleb")))
+        with self.assertRaises(messenger_methods.MessengerNotFoundException):
+            messenger_methods.get_officer(get_user_model().objects.get(username="pleb"))
 
-        self.assertEqual(mess.get_officer(get_user_model().objects.get(username="tester")).user,
+        self.assertEqual(messenger_methods.get_officer(get_user_model().objects.get(username="tester")).user,
                          get_user_model().objects.get(username="tester"))
 
 
@@ -45,10 +45,10 @@ class ViewTestCase(TestCase):
         self.factory = RequestFactory()
 
     def test_invalid_uuid(self):
-        response = mess_views.read_message(self.factory.get('/messages/invalid-uuid'), 'invalid=uuid')
+        response = messenger_views.read_message(self.factory.get('/messages/invalid-uuid'), 'invalid=uuid')
         self.assertEqual(response.status_code, 404)
 
-        response = mess_views.reply(self.factory.get('/messages/invalid-uuid/reply'), 'invalid=uuid')
+        response = messenger_views.reply(self.factory.get('/messages/invalid-uuid/reply'), 'invalid=uuid')
         self.assertEqual(response.status_code, 404)
 
 
@@ -65,7 +65,7 @@ class MessengerTestCase(TestCase):
         Test that the method creates unique UUIDs for each conversation
         """
         for x in range(TEST_ITERATIONS):
-            mess.new_conversation()
+            messenger_methods.new_conversation()
 
         print('Created %d new conversations' % (x+1))
 
@@ -85,7 +85,7 @@ class MessengerTestCase(TestCase):
         Check that our UUID regex matches correctly
         """
         for x in range(TEST_ITERATIONS):
-            self.assertTrue(mess.uuid_check(uuid.uuid4().__str__()))
+            self.assertTrue(messenger_methods.uuid_check(uuid.uuid4().__str__()))
 
         print('Checked regex against %d UUIDs' % (x+1))
 
@@ -97,14 +97,14 @@ class MessengerTestCase(TestCase):
         pass  # TODO
 
     def test_conversation_access_control(self):
-        c1, m1 = mess.new_conversation_from_message("TEST")
+        c1, m1 = messenger_methods.new_conversation_from_message("TEST")
         c1.save()
         m1.save()
 
         tester = get_user_model().objects.get(username="tester")
 
         # Check that tester has no access to conversation
-        self.assertFalse(mess.get_conversation_or_false(c1.uuid, tester))
+        self.assertFalse(messenger_methods.get_conversation_or_false(c1.uuid, tester))
 
         print("Passed access denied test")
 
@@ -112,7 +112,7 @@ class MessengerTestCase(TestCase):
         c1.save()
 
         # Check that tester now can access it and it returns the right thing
-        self.assertEqual(mess.get_conversation_or_false(c1.uuid, tester), c1)
+        self.assertEqual(messenger_methods.get_conversation_or_false(c1.uuid, tester), c1)
 
         print("Passed access allowed test")
 
@@ -120,7 +120,7 @@ class MessengerTestCase(TestCase):
         """
         Test that replies don't alter access control
         """
-        c1, m1 = mess.new_conversation_from_message("TEST")
+        c1, m1 = messenger_methods.new_conversation_from_message("TEST")
         c1.save()
         m1.save()
         tester = get_user_model().objects.get(username="tester")
@@ -130,10 +130,10 @@ class MessengerTestCase(TestCase):
 
         # Test that you can't reply to a conversation you have no access to
         pleb = get_user_model().objects.get(username="pleb")
-        self.assertFalse(mess.new_reply(c1.uuid, "reply", pleb))
+        self.assertFalse(messenger_methods.new_reply(c1.uuid, "reply", pleb))
 
         # Test that replying doesn't change access control
-        mess.new_reply(c1.uuid, "reply", tester)
+        messenger_methods.new_reply(c1.uuid, "reply", tester)
         # Fails for some unknown reason.
         # self.assertEqual(c1.recipients.all(), initial_recipients.all())
 
@@ -144,11 +144,11 @@ class MessengerTestCase(TestCase):
         raised = False
         try:
             for x in range(TEST_ITERATIONS):
-                mess.make_new_anonymous_user('password')
+                messenger_methods.make_new_anonymous_user('password')
 
             print('Checked the creation of %d anonymous users' % (x+1))
 
-        except mess.MessengerException:
+        except messenger_methods.MessengerException:
             raised = True
         self.assertFalse(raised, 'Exception raised')
 
