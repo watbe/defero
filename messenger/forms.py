@@ -32,7 +32,7 @@ class MessageForm(forms.Form):
 
     password = forms.CharField(widget=forms.PasswordInput, help_text=mark_safe('This is optional, but will allow you to'
                                                                                ' continue an anonymous conversation. '
-                                                                               '<a href="#">More information</a>.'),
+                                                                               '<a href="/about">More information</a>.'),
                                required=False)
     password_again = forms.CharField(widget=forms.PasswordInput, required=False,
                                      help_text='Type your password again to make sure you have it right.')
