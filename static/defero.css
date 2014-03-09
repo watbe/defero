@@ -12,7 +12,7 @@ small.description {
     padding: 0.8em 0 1.2em;
     font-family: "ff-tisa-web-pro", "Open Sans", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
     font-size: 1rem;
-    letter-spacing: -0.03em;
+    /*letter-spacing: -0.03em;*/
     color: #707070;
     margin-left: 0.1rem;
     line-height: 1.2em;
@@ -65,18 +65,18 @@ header.content_wrapper {
     font-family: "franklin-gothic-urw", "Open Sans", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
     color: #222;
     font-weight: 100;
-    letter-spacing: -0.04em
+    /*letter-spacing: -0.04em*/
 }
 
 h1, h2, h3, h4, h5, h6 {
     margin-top: 1rem;
     font-family: "franklin-gothic-urw", "Open Sans", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
-    letter-spacing: -0.04em
+    /*letter-spacing: -0.04em*/
 }
 
 p, ul, a.back_link {
     font-family: "ff-tisa-web-pro", "Open Sans", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
-    letter-spacing: -0.04em
+    /*letter-spacing: -0.04em*/
 }
 
 .page_help {
@@ -156,7 +156,7 @@ a.logout {
     font-family: "franklin-gothic-urw", "Open Sans", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
     font-weight: 100;
     color: #222;
-    letter-spacing: -0.03em
+    /*letter-spacing: -0.03em*/
 }
 
 .field_wrapper {
@@ -183,6 +183,7 @@ ul#id_recipients li {
     background-color: #eeeeee;
     padding: 0.3rem 1rem 0.1rem;
     cursor: pointer;
+    margin-top: 1rem;
 }
 
 ul#id_recipients li.checked {
@@ -235,7 +236,7 @@ footer.content_wrapper {
 footer a {
     color: #222 !important;
     font-size: 0.9rem;
-    letter-spacing: -0.03em;
+    /*letter-spacing: -0.03em;*/
     display: inline-block;
     margin: 0 1rem;
     line-height: 2rem;
