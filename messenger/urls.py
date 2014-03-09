@@ -16,7 +16,6 @@ urlpatterns = patterns('',
 
                        url(r'^tos$', 'messenger.messenger_static_pages.privacy'),
                        url(r'^about$', 'messenger.messenger_static_pages.about'),
-                       url(r'^faq$', 'messenger.messenger_static_pages.faq'),
 
                        # Everything else will match home.
                        url(r'^', 'messenger.views.home'),
