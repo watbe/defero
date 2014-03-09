@@ -144,6 +144,6 @@ def send_email_notifications(recipients):
     for user in recipients.all():
         if user.email:
             send_mail('New message on Messenger', 'Hi there, this is a simple notification to let you know that '
-                                                  'you have received a new message on Messenger. Please log in to'
-                                                  'view the new message. Thank you. - Automated email',
+                                                  'you have received a new message on Messenger. Please log in to '
+                                                  'view the new message.\n Thank you. - Automated email',
                       'messenger@lab273.com',[user.email], fail_silently=True)
