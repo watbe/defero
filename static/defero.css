@@ -74,7 +74,7 @@ h1, h2, h3, h4, h5, h6 {
     letter-spacing: -0.04em
 }
 
-p {
+p, ul, a.back_link {
     font-family: "ff-tisa-web-pro", "Open Sans", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
     letter-spacing: -0.04em
 }
@@ -116,6 +116,14 @@ select#id_recipients {
     padding: 0 1rem;
 }
 
+a, a:link, a:visited {
+    color: #0083fe;
+}
+
+a:hover, a:focus {
+    text-decoration: underline;
+}
+
 a.button, button, input[type="submit"] {
     background-color: #94ceff;
     font-family: "franklin-gothic-urw", "Open Sans", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
@@ -126,26 +134,21 @@ a.button, button, input[type="submit"] {
     border:none;
 }
 
-a.button:hover, button:hover, input[type="submit"]:hover {
+a.button:hover, button:hover, input[type="submit"]:hover,
+a.button:focus, button:focus, input[type="submit"]:focus {
     background-color: #dbdcdc;
     color: #000 !important;
     text-decoration: none;
 }
 
-a.login {
+a.login, a.logout {
     margin-top: 5px;
+    margin-left: 20px;
+    display: inline-block;
 }
 
 a.logout {
     background-color: #ffb5ba;
-}
-
-a, a:link, a:visited {
-    color: #0083fe;
-}
-
-a:hover {
-    text-decoration: underline;
 }
 
 #message_form label {
@@ -215,6 +218,12 @@ input[type="submit"] {
     margin: 1rem 0 0 ;
     font-size: 1.2rem;
     font-weight: normal;
+}
+input[type="submit"]:hover,
+input[type="submit"]:focus,
+.send_message button:hover,
+.send_message button:focus {
+    background-color: #EEE;
 }
 
 footer.content_wrapper {

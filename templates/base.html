@@ -66,6 +66,7 @@
             <a class="button right login" href="/login">Login</a>
         {% else %}
             <a class="button right logout" href="/logout">Logout</a>
+            <a class="button right login" href="/messages">View messages</a>
         {% endif %}
     </header>
 
@@ -117,9 +118,9 @@
 
     <footer class="row content_wrapper">
         <nav class="footer">
-            <a href="#">What is Messenger?</a>
-            <a href="#">Frequently Asked Questions</a>
-            <a href="#">Privacy and Security Policy</a>
+            <a href="/about">What is Messenger?</a>
+            <a href="/faq">Frequently Asked Questions</a>
+            <a href="/tos">Privacy, Security and Terms of Service</a>
         </nav>
     </footer>
 {% endblock %}
