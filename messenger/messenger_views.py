@@ -52,7 +52,7 @@ def new_message(request, output=None):
             output['conversation'] = conversation
             output['logged_in'] = True
 
-            messenger.send_email_notifications(conversation.recipients)
+            messenger.send_email_notifications(conversation.recipients, request.user)
 
             return render_to_response('message_success.html', output, context_instance=RequestContext(request))
 
@@ -131,7 +131,7 @@ def reply(request, uuid):
                 msg = 'Your reply has been added to the conversation.'
 
                 conversation = messenger.get_conversation_or_false(uuid, request.user)
-                messenger.send_email_notifications(conversation.recipients)
+                messenger.send_email_notifications(conversation.recipients, request.user)
 
                 return read_message(request, uuid, {'success_message': msg})
             else:

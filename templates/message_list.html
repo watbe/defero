@@ -20,10 +20,12 @@
                     <th>Conversation ID</th>
                     <th>Replies</th>
                     <th>Participants</th>
+                    <th>Date/time created</th>
+                    <th>Last reply</th>
                 </tr>
             </thead>
             <tbody>
-                {% for conversation in conversation_list %}
+                {% for conversation in conversation_list reversed %}
                     <tr>
                         <td>
                             {% if conversation.subject %}
@@ -40,6 +42,14 @@
                         </td>
                         <td class="center">
                             {{ conversation.recipients.count }}
+                        </td>
+                        <td>
+                            {{ conversation.messages.all.0.time_posted }}
+                        </td>
+                        <td>
+{#                            {% with conversation.messages.all|last as end %}#}
+{#                                {{ end.time_posted }}#}
+{#                            {% endwith %}#}
                         </td>
                     </tr>
                 {% endfor %}
