@@ -27,18 +27,6 @@ occurred. It provides anonymous two-way communication if needed.
         {# We ensure that autocomplete is forced off to prevent browsers from saving messages #}
         <form action="/messages/new" method="post" autocomplete="off">{% csrf_token %}
 
-            <div class="field_wrapper">
-                <label for="id_recipients">Recipients:</label>
-                {{ message_form.recipients }}
-                {% if message_form.recipients.errors %}
-                    {% for error in message_form.recipients.errors %}
-                        <small class="error">{{ error|escape }}</small>
-                    {% endfor %}
-                {% endif %}
-                {% if message_form.recipients.help_text %}
-                    <small class="description">{{ message_form.recipients.help_text }}</small>
-                {% endif %}
-            </div>
 
             <div class="field_wrapper">
                 <label for="id_content">Message:</label>
@@ -50,6 +38,19 @@ occurred. It provides anonymous two-way communication if needed.
                 {% endif %}
                 {% if message_form.content.help_text %}
                     <small class="description">{{ message_form.content.help_text }}</small>
+                {% endif %}
+            </div>
+
+            <div class="field_wrapper">
+                <label for="id_recipients">Recipients:</label>
+                {{ message_form.recipients }}
+                {% if message_form.recipients.errors %}
+                    {% for error in message_form.recipients.errors %}
+                        <small class="error">{{ error|escape }}</small>
+                    {% endfor %}
+                {% endif %}
+                {% if message_form.recipients.help_text %}
+                    <small class="description">{{ message_form.recipients.help_text }}</small>
                 {% endif %}
             </div>
 

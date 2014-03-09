@@ -4,26 +4,38 @@
     <link rel="stylesheet" href="{{ STATIC_URL }}defero.css"/>
     <link href="{{ STATIC_URL }}favicon.ico" rel="icon" type="image/x-icon"/>
 {% endblock %}
+
+{% block head_js %}
+    <script type="text/javascript" src="//use.typekit.net/obk5zhn.js"></script>
+    <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+{% endblock %}
+
 {% block title %}{% block page_title %}{{ title }}{% endblock %} | Messenger{% endblock %}
 
 
 {% block base_body %}
-    <nav class="top-bar" data-topbar>
-        <ul class="title-area">
-            <li class="name"><h1><a href="/">Messenger</a></h1></li>
-            <li class="toggle-topbar menu-icon"><a href="#">Menu</a></li>
-        </ul>
-        <section class="top-bar-section"> <!-- Right Nav Section -->
-            <ul class="right">
-                {% if user.is_authenticated %}
-                    <li><a href="/messages/">Messages</a></li>
-                    <li class="active"><a href="/logout">Logout</a></li>
-                {% else %}
-                    <li class="active"><a href="/user/login">Log In</a></li>
-                {% endif %}
-            </ul>
-        </section>
-    </nav>
+{#    <nav class="top-bar" data-topbar>#}
+{#        <ul class="title-area">#}
+{#            <li class="name"><h1><a href="/">Messenger</a></h1></li>#}
+{#            <li class="toggle-topbar menu-icon"><a href="#">Menu</a></li>#}
+{#        </ul>#}
+{#        <section class="top-bar-section"> <!-- Right Nav Section -->#}
+{#            <ul class="right">#}
+{#                {% if user.is_authenticated %}#}
+{#                    <li><a href="/messages/">Messages</a></li>#}
+{#                    <li class="active"><a href="/logout">Logout</a></li>#}
+{#                {% else %}#}
+{#                    <li class="active"><a href="/user/login">Log In</a></li>#}
+{#                {% endif %}#}
+{#            </ul>#}
+{#        </section>#}
+{#    </nav>#}
+
+    <header class="row content_wrapper">
+        <a id="site_title" href="/">Messenger</a>
+        <a class="button right" href="/login">Login</a>
+    </header>
+
     <div class="row content_wrapper">
         {% if success_message %}
             <div data-alert class="alert-box success radius">
@@ -34,33 +46,37 @@
 
         <div class="row">
 
-            <div class="medium-3 columns">
+            <div class="medium-2 columns">
 
-                <p class="page_help">
-                    {% block description %}
-                        {{ description }}
-                    {% endblock %}
-                </p>
-
-                <h3>Site links</h3>
-                <ul class="side-nav">
-                    <li><a href="/faq">Frequently asked questions</a></li>
-                    <li><a href="/privacy">Privacy Policy</a></li>
-                </ul>
-                <h3>External Links</h3>
-                <ul class="side-nav">
-                    <li><a href="http://crcc.org.au/">Canberra Rape Crisis Centre</a></li>
-                    <li>CRCC Phone: 02 6247 2525</li>
-                    <li>ANU Security: 02 612 52249</li>
-                </ul>
+{#                <p class="page_help">#}
+{#                    {% block description %}#}
+{#                        {{ description }}#}
+{#                    {% endblock %}#}
+{#                </p>#}
+{##}
+{#                <h3>Site links</h3>#}
+{#                <ul class="side-nav">#}
+{#                    <li><a href="/faq">Frequently asked questions</a></li>#}
+{#                    <li><a href="/privacy">Privacy Policy</a></li>#}
+{#                </ul>#}
+{#                <h3>External Links</h3>#}
+{#                <ul class="side-nav">#}
+{#                    <li><a href="http://crcc.org.au/">Canberra Rape Crisis Centre</a></li>#}
+{#                    <li>CRCC Phone: 02 6247 2525</li>#}
+{#                    <li>ANU Security: 02 612 52249</li>#}
+{#                </ul>#}
 
             </div>
 
-            <div class="medium-9 columns">
+            <div class="medium-12 columns">
 
                 {% block content %}
                     {{ content }}
                 {% endblock %}
+
+            </div>
+
+            <div class="medium-2 columns">
 
             </div>
         </div>
