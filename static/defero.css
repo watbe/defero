@@ -1,7 +1,20 @@
+body {
+    background-color: #fafafa;
+}
+
+.clearfix {
+    clear:both;
+}
+
 small.description {
     display:block;
     margin-top: -1rem;
     padding: 0.8em 0 1.2em;
+    font-family: "ff-tisa-web-pro", "Open Sans", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+    font-size: 1rem;
+    letter-spacing: -0.03em;
+    color: #707070;
+    margin-left: 0.1rem;
 }
 
 small.error {
@@ -25,15 +38,18 @@ header.content_wrapper {
     font-family: "franklin-gothic-urw", "Open Sans", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
     color: #222;
     font-weight: 100;
+    letter-spacing: -0.04em
 }
 
 h1, h2, h3, h4, h5, h6 {
     margin-top: 1rem;
-    font-family: "ff-tisa-web-pro", "Open Sans", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+    font-family: "franklin-gothic-urw", "Open Sans", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+    letter-spacing: -0.04em
 }
 
 p {
     font-family: "ff-tisa-web-pro", "Open Sans", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+    letter-spacing: -0.04em
 }
 
 .page_help {
@@ -72,16 +88,71 @@ select#id_recipients {
     width: 800px;
 }
 
-.button {
+a.button {
     background-color: #94ceff;
     font-family: "franklin-gothic-urw", "Open Sans", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
     height: 30px;
-    color: #000;
+    color: #000 !important;
     padding: 0.5rem 2rem 1.7rem;
     font-weight: 900;
 }
 
-.button:hover {
+a.button:hover {
     background-color: #dbdcdc;
-    color: #000;
+    color: #000 !important;
+    text-decoration: none;
+}
+
+a.login {
+    margin-top: 5px;
+}
+
+a.logout {
+    background-color: #ffb5ba;
+}
+
+a, a:link, a:visited {
+    color: #0083fe;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+#message_form label {
+    font-size: 2rem;
+    font-family: "franklin-gothic-urw", "Open Sans", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+    font-weight: 100;
+    color: #222;
+    letter-spacing: -0.03em
+}
+
+.field_wrapper {
+    margin-top: 2rem;
+}
+
+#id_recipients label {
+    font-family: "ff-tisa-web-pro", "Open Sans", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
+}
+
+ul#id_recipients {
+    list-style-type: none;
+}
+
+ul#id_recipients li {
+    float: left;
+    margin-right: 2rem;
+    background-color: #eeeeee;
+    padding: 0.3rem 1rem 0.1rem;
+    cursor: pointer;
+}
+
+ul#id_recipients li.checked {
+    background-color: #ddd;
+}
+
+.field_wrapper ul {
+    margin: 0;
 }

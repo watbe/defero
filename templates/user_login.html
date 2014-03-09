@@ -23,7 +23,7 @@
         {% endif %}
 
         {# We ensure that autocomplete is forced off to prevent browsers from saving passwords and usernames #}
-        <form action="/user/login" method="post" autocomplete="off">{% csrf_token %}
+        <form action="/login" method="post" autocomplete="off">{% csrf_token %}
             {% for field in login_form %}
                 <div class="input {{ field.field.widget.attrs.class }}">
                     {{ field.label_tag }}

@@ -8,6 +8,35 @@
 {% block head_js %}
     <script type="text/javascript" src="//use.typekit.net/obk5zhn.js"></script>
     <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+    <script type="text/javascript" src="/static/jquery-1.11.min.js"></script>
+    <script type="text/javascript">
+    $( document ).ready(function() {
+        $("ul#id_recipients input").each(function() {
+            $(this).hide();
+
+            var $image = $("<img src='/static/check_off.png' />").insertAfter(this);
+
+            if($(this).is(":checked")) {
+                $image.attr("src", "/static/check_on.png");
+                $(this).prop('checked', true);
+                $(this).parent().parent().addClass("checked");
+            }
+
+            $(this).parent().parent().click(function() {
+                var $checkbox = $(this).children("label").children("input");
+                if($checkbox.is(':checked')) {
+                    $image.attr("src", "/static/check_off.png");
+                    $checkbox.prop('checked', false)
+                    $(this).removeClass("checked");
+                } else {
+                    $image.attr("src", "/static/check_on.png");
+                    $checkbox.prop('checked', true)
+                    $(this).addClass("checked");
+                }
+            })
+        });
+    });
+    </script>
 {% endblock %}
 
 {% block title %}{% block page_title %}{{ title }}{% endblock %} | Messenger{% endblock %}
@@ -33,7 +62,11 @@
 
     <header class="row content_wrapper">
         <a id="site_title" href="/">Messenger</a>
-        <a class="button right" href="/login">Login</a>
+        {% if not user.is_authenticated %}
+            <a class="button right login" href="/login">Login</a>
+        {% else %}
+            <a class="button right logout" href="/logout">Logout</a>
+        {% endif %}
     </header>
 
     <div class="row content_wrapper">

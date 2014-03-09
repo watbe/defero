@@ -23,11 +23,10 @@ class LoginForm(forms.Form):
 
 class MessageForm(forms.Form):
     recipients = forms.ModelMultipleChoiceField(Officer.objects.all(),
-                                                help_text='You can send messages to any officer(s) you feel comfortable'
-                                                          ' with, and only the specified people will be able to view '
-                                                          'your message. ')
-    content = forms.CharField(widget=forms.Textarea, help_text='A message can be as long or as short as you like. '
-                                                               'Please be as descriptive as possible where necessary.',
+                                                help_text='You can select more than one person.',
+                                                widget=forms.CheckboxSelectMultiple)
+    content = forms.CharField(widget=forms.Textarea, help_text='Be as detailed or brief as you want. '
+                                                               'Messages are always anonymous.',
                               label='Message')
 
     password = forms.CharField(widget=forms.PasswordInput, help_text='If you would like to see replies and continue '
