@@ -1,5 +1,5 @@
 body {
-    background-color: #fafafa;
+    background-color: #fefefe;
 }
 
 .clearfix {
@@ -15,16 +15,43 @@ small.description {
     letter-spacing: -0.03em;
     color: #707070;
     margin-left: 0.1rem;
+    line-height: 1.2em;
 }
 
 small.error {
-  margin-top: -1rem;
+    margin-top: -0.5rem;
     display:block;
+    clear:both;
+    background: none;
+    font-style: normal;
+    font-family: "ff-tisa-web-pro", "Open Sans", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+    color: red;
+    font-size: 0.8rem;
+    font-weight: bold;
+    padding-left: 0;
 }
 
 textarea {
     height: 200px;
 }
+
+input[type="text"],
+textarea,
+input[type="password"] {
+    background: #eee;
+    max-width: 600px;
+    border:none;
+    box-shadow: none;
+}
+
+input[type="text"]:focus,
+textarea:focus,
+input[type="password"]:focus {
+    background: #e3e3e3;
+    max-width: 600px;
+    box-shadow: none;
+}
+
 .alert-box {
     margin-top: 1rem;
 }
@@ -85,19 +112,21 @@ select#id_recipients {
 }
 
 .content_wrapper {
-    width: 800px;
+    max-width: 800px;
+    padding: 0 1rem;
 }
 
-a.button {
+a.button, button, input[type="submit"] {
     background-color: #94ceff;
     font-family: "franklin-gothic-urw", "Open Sans", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
     height: 30px;
     color: #000 !important;
     padding: 0.5rem 2rem 1.7rem;
     font-weight: 900;
+    border:none;
 }
 
-a.button:hover {
+a.button:hover, button:hover, input[type="submit"]:hover {
     background-color: #dbdcdc;
     color: #000 !important;
     text-decoration: none;
@@ -128,13 +157,17 @@ a:hover {
 }
 
 .field_wrapper {
-    margin-top: 2rem;
+    margin-top: 3rem;
 }
 
-#id_recipients label {
+#id_recipients label, #message_form label.small {
     font-family: "ff-tisa-web-pro", "Open Sans", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
     font-size: 1rem;
     font-weight: 400;
+}
+
+#id_recipients label {
+    cursor: pointer;
 }
 
 ul#id_recipients {
@@ -155,4 +188,55 @@ ul#id_recipients li.checked {
 
 .field_wrapper ul {
     margin: 0;
+}
+
+.field_wrapper .columns {
+    padding-left: 0;
+}
+
+.send_message p {
+    text-align: center;
+}
+
+.send_message p .description {
+    font-size: 0.8rem;
+}
+
+.send_message button {
+    background-color: #8dd77e;
+    padding: 1rem 3rem 2.4rem;
+    margin: 1rem 0 0 ;
+    font-size: 1.2rem;
+}
+
+input[type="submit"] {
+    background-color: #8dd77e;
+    padding: 0.5rem 3rem 2rem;
+    margin: 1rem 0 0 ;
+    font-size: 1.2rem;
+    font-weight: normal;
+}
+
+footer.content_wrapper {
+    background-color: #eee;
+    text-align: center;
+    padding: 1rem 0;
+    margin-top: 2rem;
+}
+footer a {
+    color: #222 !important;
+    font-size: 0.9rem;
+    letter-spacing: -0.03em;
+    display: inline-block;
+    margin: 0 1rem;
+    line-height: 2rem;
+}
+
+div.small_form {
+    max-width: 300px;
+    margin: 0 auto;
+}
+
+label {
+    cursor: default;
 }

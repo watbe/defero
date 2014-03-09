@@ -2,10 +2,11 @@ __author__ = 'Wayne'
 from django import forms
 from django.contrib.auth import authenticate
 from messenger.models import Officer
+from django.utils.safestring import mark_safe
 
 
 class LoginForm(forms.Form):
-    username = forms.CharField(max_length=100)
+    username = forms.CharField(max_length=100, label='User ID')
     password = forms.CharField(widget=forms.PasswordInput())
 
     def clean(self):
@@ -29,10 +30,10 @@ class MessageForm(forms.Form):
                                                                'Messages are always anonymous.',
                               label='Message')
 
-    password = forms.CharField(widget=forms.PasswordInput, help_text='If you would like to see replies and continue '
-                                                                     'communications with the officer, please enter '
-                                                                     'a password here. You will be assigned a random '
-                                                                     'user ID.', required=False)
+    password = forms.CharField(widget=forms.PasswordInput, help_text=mark_safe('This is optional, but will allow you to'
+                                                                               ' continue an anonymous conversation. '
+                                                                               '<a href="#">More information</a>.'),
+                               required=False)
     password_again = forms.CharField(widget=forms.PasswordInput, required=False,
                                      help_text='Type your password again to make sure you have it right.')
 

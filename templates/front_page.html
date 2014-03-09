@@ -62,44 +62,56 @@ occurred. It provides anonymous two-way communication if needed.
 
             </div>
 
-            {% if not user.is_authenticated %}
-                <fieldset>
-                    <legend>Create an account</legend>
-                    <p>If you would like to see replies and continue communicating with the officer, enter a password
-                    that only you know below. A random user id will be created for you which you can use to access any
-                    replies and send further messages. <strong>This is optional.</strong></p>
-                    <div class="field_wrapper">
-                        <label for="id_content">Password:</label>
-                        {{ message_form.password }}
-                        {% if message_form.password.errors %}
-                            {% for error in message_form.password.errors %}
-                                <small class="error">{{ error|escape }}</small>
-                            {% endfor %}
-                        {% endif %}
-                        {% if message_form.password.help_text %}
-                            <small class="description">{{ message_form.password.help_text }}</small>
-                        {% endif %}
-                    </div>
-                    <div class="field_wrapper">
-                        <label for="id_content">Password confirmation:</label>
-                        {{ message_form.password_again }}
-                        {% if message_form.password_again.errors %}
-                            {% for error in message_form.password_again.errors %}
-                                <small class="error">{{ error|escape }}</small>
-                            {% endfor %}
-                        {% endif %}
-                        {% if message_form.password_again.help_text %}
-                            <small class="description">{{ message_form.password_again.help_text }}</small>
-                        {% endif %}
-                    </div>
-                </fieldset>
-            {% else %}
-                <p><strong>Please note that you are currently logged in.</strong> This message will be automatically
-                added to the list of conversations you can access. If you wish to dissociate your user account with
-                this message, please <a href="/logout">log out</a> first.</p>
-            {% endif %}
+            <div class="field_wrapper">
+                {% if not user.is_authenticated %}
+                            <label>Do you want to be able to view and send replies?</label>
+                            {% if message_form.password.help_text %}
+                                <small class="description">{{ message_form.password.help_text }}</small>
+                            {% endif %}
+                            <div class="medium-4 columns">
+                                <label for="id_content" class="small">Password</label>
+                                {{ message_form.password }}
 
-            <button type="submit">Submit</button>
+                                {% if message_form.password.errors %}
+                                    {% for error in message_form.password.errors %}
+                                        <small class="error">{{ error|escape }}</small>
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+
+                            <div class="medium-4 columns">
+                                <label for="id_content" class="small">Password again</label>
+                                {{ message_form.password_again }}
+
+                                {% if message_form.password_again.errors %}
+                                    {% for error in message_form.password_again.errors %}
+                                        <small class="error">{{ error|escape }}</small>
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                            <div class="clearfix"></div>
+                {% else %}
+                    <label>You will be able to view and send replies</label>
+                    <p><strong>You are currently logged in as user: {{ user.username }}.</strong> This message will be automatically
+                        added to the list of conversations you can access so you do not have to create a new account.
+                    </p>
+                    <p>Your message will still be completely anonymous, however, you may choose to <a href="/logout">log out</a> and
+                    create a new account.</p>
+                {% endif %}
+            </div>
+
+            <div class="field_wrapper send_message">
+                <label>Review and send</label>
+                    <small class="description">Be sure to double-check your message and who you are sending it to.</small>
+                <p>
+                    <button type="submit">Send message</button>
+                </p>
+                <p>
+                    <small class="description">By clicking this button,
+                        you agree to the <a href="#">privacy policy</a> for this service.</small>
+                </p>
+            </div>
+
         </form>
     </div>
 
